@@ -1,0 +1,7 @@
+# Ignores
+\.classpath
+\.project
+\.settings
+\.metadata/
+Servers/
+target/

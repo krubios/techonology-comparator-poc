@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="comparatortechnologyproject.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="RCP Perspective"
+            class="comparatortechnologyproject.Perspective"
+            id="ComparatorTechnologyProject.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="Información De Enlaces"
+            allowMultiple="true"
+            icon="icons/sample2.gif"
+            class="comparatortechnologyproject.InformationView"
+            id="ComparatorTechnologyProject.view">
+      </view>
+      <view
+            name="Mailboxes"
+            allowMultiple="true"
+            icon="icons/sample3.gif"
+            class="comparatortechnologyproject.NavigationView"
+            id="ComparatorTechnologyProject.navigationView">
+      </view>
+   </extension>
+  
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Mail"
+            id="ComparatorTechnologyProject.category">
+      </category>
+      <command
+            name="Open File"
+            description="Opens a file"
+            categoryId="ComparatorTechnologyProject.category"
+            id="ComparatorTechnologyProject.openFile">
+      </command>
+     
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="ComparatorTechnologyProject.open"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+O">
+      </key>
+      <key
+            commandId="ComparatorTechnologyProject.openMessage"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+M">
+      </key>
+      <key
+            commandId="org.eclipse.ui.file.exit"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+Q">
+      </key>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="ComparatorTechnologyProject.application"
+            name="Comparador de Tecnologías">
+         <property
+               name="aboutText"
+               value="RCP Mail template created by PDE">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/icon_tool.jpg">
+         </property>
+         <property
+               name="aboutImage"
+               value="icon_tool.jpg">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+  		<page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="comparator.preferences.wifi.WifiPreferencePage"
+            id="comparator.preferences.wifi.WifiPreferencePage"
+            name="Wifi">
+  		</page>
+  		
+  		<page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="comparator.preferences.wimax.WimaxPreferencePage"
+            id="comparator.preferences.wimax.WimaxPreferencePage"
+            name="Wimax">
+  		</page>
+  		
+  		<page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="comparator.preferences.wimax.WimaxCapacityPreferencePage"
+            id="comparator.preferences.wimax.WimaxCapacityPreferencePage"
+            name="Capacidad Wimax">
+  		</page>
+  		
+  		<page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="comparator.preferences.wifi.WifiCapacityPreferencePage"
+            id="comparator.preferences.wifi.WifiCapacityPreferencePage"
+            name="Capacidad Wifi">
+  		</page>
+  		
+   </extension>
+   
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+     <initializer
+     	class="comparator.preferences.PreferenceInitializer">
+	 </initializer>    
+   </extension>
+   
+   <extension 
+   		point="org.eclipse.ui.popupMenus"> 
+	</extension>
+</plugin>
