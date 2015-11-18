@@ -29,7 +29,7 @@
             id="ComparatorTechnologyProject.view">
       </view>
       <view
-            name="Mailboxes"
+            name="Navegación de Enlaces"
             allowMultiple="true"
             icon="icons/sample3.gif"
             class="comparatortechnologyproject.NavigationView"
@@ -39,29 +39,20 @@
   
    <extension
          point="org.eclipse.ui.commands">
-      <category
-            name="Mail"
-            id="ComparatorTechnologyProject.category">
-      </category>
       <command
             name="Open File"
             description="Opens a file"
             categoryId="ComparatorTechnologyProject.category"
             id="ComparatorTechnologyProject.openFile">
       </command>
-     
    </extension>
+   
    <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="ComparatorTechnologyProject.open"
+            commandId="ComparatorTechnologyProject.openFile"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+SHIFT+O">
-      </key>
-      <key
-            commandId="ComparatorTechnologyProject.openMessage"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="CTRL+SHIFT+M">
       </key>
       <key
             commandId="org.eclipse.ui.file.exit"
@@ -69,6 +60,7 @@
             sequence="CTRL+SHIFT+Q">
       </key>
    </extension>
+   
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
@@ -77,18 +69,20 @@
             name="Comparador de Tecnologías">
          <property
                name="aboutText"
-               value="RCP Mail template created by PDE">
+               value="Comparador de Tecnologías Wimax y Wifi &#x0A;Version 1.0.0&#x0A;by Karla Rubio Sopan&#x0A;&#x0A;For more information on Eclipse and the&#x0A;Rich Client Platform visit:&#x0A;http://www.eclipse.org">
          </property>
+         
          <property
                name="windowImages"
                value="icons/icon_tool.jpg">
          </property>
          <property
                name="aboutImage"
-               value="icon_tool.jpg">
+               value="icons/icon_tool.jpg">
          </property>
       </product>
    </extension>
+   
    <extension
          point="org.eclipse.ui.preferencePages">
   		<page
@@ -118,7 +112,6 @@
             id="comparator.preferences.wifi.WifiCapacityPreferencePage"
             name="Capacidad Wifi">
   		</page>
-  		
    </extension>
    
    <extension
@@ -128,7 +121,7 @@
 	 </initializer>    
    </extension>
    
-   <extension 
+   <!--extension 
    		point="org.eclipse.ui.popupMenus"> 
-	</extension>
+	</extension-->
 </plugin>
