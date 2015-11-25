@@ -1,7 +1,11 @@
+#Directories#
+/build/
+/bin/
+target/
 # Ignores
-\.classpath
-\.project
-\.settings
-\.metadata/
+.classpath
+.project
+.settings/
+.metadata/
 Servers/
 target/
