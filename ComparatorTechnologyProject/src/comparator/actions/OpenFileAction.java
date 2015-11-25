@@ -3,11 +3,13 @@ package comparator.actions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 import comparator.scheduler.Auxiliary;
+import comparator.scheduler.Scheduler;
 import comparatortechnologyproject.Activator;
-import comparatortechnologyproject.ApplicationWorkbenchWindowAdvisor;
 import comparatortechnologyproject.ICommandIds;
 import comparatortechnologyproject.NavigationView;
 
@@ -16,18 +18,23 @@ public class OpenFileAction extends Action {
 	private final IWorkbenchWindow window;
 	// Lista de redes definidas en el fichero de RadioMobile
 	private String[] netList = new String[0];
+	
+	public static Scheduler scheduler;
+	
 
 	public OpenFileAction(IWorkbenchWindow window, String label) {
+		
 		super(label);
+		scheduler = new Scheduler();
 		this.window = window;
 		setId(ICommandIds.CMD_OPEN_FILE);
 		setActionDefinitionId(ICommandIds.CMD_OPEN_FILE);
-
 		setImageDescriptor(Activator.getImageDescriptor("/icons/Open.png"));
 	}
 
 	public void run() {
 
+		
 		Shell shell = window.getShell();
 		FileDialog fileDialog = new FileDialog(shell);
 		String firstFile = fileDialog.open();
@@ -38,7 +45,7 @@ public class OpenFileAction extends Action {
 
 		// Cargamos información del fichero report
 		try {
-			netList = ApplicationWorkbenchWindowAdvisor.scheduler
+			netList = scheduler
 					.loadNet(firstFile);
 		} catch (Exception e) {
 			Auxiliary.showErrorMessage(shell,
@@ -55,7 +62,7 @@ public class OpenFileAction extends Action {
 					Messages.SelectImporteNetMessage, netList);
 			String netName = ComboDialog.getNetName();
 			try {
-				ApplicationWorkbenchWindowAdvisor.scheduler.loadNetFile(firstFile, netName);
+				scheduler.loadNetFile(firstFile, netName);
 
 			} catch (Exception e) {
 				Auxiliary.showErrorMessage(shell,
@@ -68,11 +75,17 @@ public class OpenFileAction extends Action {
 	}
 
 	private void refreshNodes() {
-
-		NavigationView view = new NavigationView();
-		view.clearSubscriberNodes();
-		view.setSubscriberNodes(ApplicationWorkbenchWindowAdvisor.scheduler.getSubscriberNodes());
-		view.setBaseStation(ApplicationWorkbenchWindowAdvisor.scheduler.getBaseStation());
-		NavigationView._viewer.setInput(view.createDummyModel());
+		
+		for (IViewReference view : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences())
+		{
+			if (view.getView(true) instanceof NavigationView)
+			{
+				NavigationView navigationView = (NavigationView) view.getView(true);
+				navigationView.clearSubscriberNodes();
+				navigationView.setSubscriberNodes(scheduler.getSubscriberNodes());
+				navigationView.setBaseStation(scheduler.getBaseStation());
+				navigationView.getViewer().setInput(navigationView.createDummyModel());
+			}
+		}
 	}
 }

@@ -14,20 +14,23 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import comparator.actions.OpenFileAction;
 import comparator.scheduler.FileManager;
 import comparator.scheduler.Subscriber;
 
 public class NavigationView extends ViewPart {
 	
 	public static final String DEFAULT_NODE_NAME="BaseStation";
-	public static ArrayList<Subscriber> SUBSCRIBER = new ArrayList<Subscriber>();
-	public static Subscriber BASESTATION;
+	private ArrayList<Subscriber> subscriberList = new ArrayList<Subscriber>();
+	private Subscriber baseStation;
 	public static final String ID = "ComparatorTechnologyProject.navigationView";
 	
 	public static Subscriber _selectedSubscriber = null;
-	public static TreeViewer _viewer;
+	private TreeViewer treeViewer;
 	 
 	
     /**
@@ -36,9 +39,9 @@ public class NavigationView extends ViewPart {
      */
     public TreeObject createDummyModel() {
     	TreeParent rootNode = new TreeParent(new Subscriber(DEFAULT_NODE_NAME));
-    	if (!SUBSCRIBER.isEmpty()){
-    		rootNode = new TreeParent(BASESTATION);
-	        for (Subscriber subscriber: SUBSCRIBER){
+    	if (!subscriberList.isEmpty()){
+    		rootNode = new TreeParent(baseStation);
+	        for (Subscriber subscriber: subscriberList){
 	        	TreeObject to1 = new TreeObject(subscriber);
 	        	rootNode.addChild(to1);
 	        }
@@ -53,24 +56,22 @@ public class NavigationView extends ViewPart {
      * it.
      */
 	public void createPartControl(Composite parent) {
-		_viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		_viewer.setContentProvider(new ViewContentProvider());
-		_viewer.setLabelProvider(new ViewLabelProvider());
-		_viewer.setInput(createDummyModel());
+		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		treeViewer.setContentProvider(new ViewContentProvider());
+		treeViewer.setLabelProvider(new ViewLabelProvider());
+		treeViewer.setInput(createDummyModel());
 		
-		_viewer.addSelectionChangedListener(new ISelectionChangedListener() 
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() 
 		{
-			
 			@Override
 			public void selectionChanged(SelectionChangedEvent arg0) {
 				showSelectedInformation(arg0.getSelection());
-				
 			}
 		});
 		
-		setViewer(_viewer);
+		setViewer(treeViewer);
 		createContextMenu();
-		_viewer.expandAll();
+		treeViewer.expandAll();
 	}
 
 	private void createContextMenu() {
@@ -80,7 +81,7 @@ public class NavigationView extends ViewPart {
 		 
 		 contextMenu.addMenuListener(new IMenuListener() {
                  public void menuAboutToShow(IMenuManager manager) {
-                	 TreeSelection sel = (TreeSelection) _viewer.getSelection();
+                	 TreeSelection sel = (TreeSelection) treeViewer.getSelection();
                 	 Subscriber subs = ((TreeObject)sel.getFirstElement()).getSubscriber();
                 	 if (subs != null){
                 		 manager.add(ApplicationActionBarAdvisor.preferenceAction);
@@ -88,58 +89,71 @@ public class NavigationView extends ViewPart {
                  }
          });
          
-         Menu menu = contextMenu.createContextMenu(_viewer.getControl());
-         _viewer.getControl().setMenu(menu);
+         Menu menu = contextMenu.createContextMenu(treeViewer.getControl());
+         treeViewer.getControl().setMenu(menu);
          
-         getSite().registerContextMenu(contextMenu, _viewer);
+         getSite().registerContextMenu(contextMenu, treeViewer);
 	}
 	
 	
 
 	private void showSelectedInformation(ISelection selection) {
+		
 		TreeSelection sel = (TreeSelection) selection;
-		if (sel != null & sel.getFirstElement() != null)
+		if (sel != null & sel.getFirstElement() != null){
 			_selectedSubscriber = ((TreeObject)sel.getFirstElement()).getSubscriber();
 			Subscriber BS = FileManager.getBaseStation();
-			if ((!_selectedSubscriber.getName().equals(DEFAULT_NODE_NAME)) && (BS != null && !_selectedSubscriber.getName().equals(BS.getName()))){
-				InformationView.showInformationSuscriber(_selectedSubscriber);		
-				ApplicationWorkbenchWindowAdvisor.scheduler.wimaxScheduler();
-				ApplicationWorkbenchWindowAdvisor.scheduler.wifiScheduler();
-				InformationView.showWimaxCapacityInformation();
-				InformationView.showWifiCapacityInformation();
-				
-			}else{
-				InformationView.getViewer().getTable().clearAll();
-				ModelProvider.INSTANCE.clearAll();
-				InformationView.clearTree();
-			}
+			for (IViewReference view : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences()){
+				if (view.getView(true) instanceof InformationView){
+					InformationView informationView = (InformationView) view.getView(true);
+					if ((!_selectedSubscriber.getName().equals(DEFAULT_NODE_NAME)) && (BS != null && 
+							!_selectedSubscriber.getName().equals(BS.getName()))){
+						
+						InformationView.configurationProperties.showInformationSuscriber(informationView.tableViewer, 
+								InformationView.grandChildWimaxDL, InformationView.grandChildWimaxUL, 
+								InformationView.grandChildWifiDL, InformationView.grandChildWifiUL);
+						
+						OpenFileAction.scheduler.wimaxScheduler();
+						OpenFileAction.scheduler.wifiScheduler();
+						informationView.showWimaxCapacityInformation();
+						informationView.showWifiCapacityInformation();
+						
+					}else{
+						
+						informationView.getViewer().getTable().clearAll();
+						ModelProvider.INSTANCE.clearAll();
+						informationView.clearTree();
+					}
+				}
+			}	
+		}
 	}
 
 	private void setViewer(TreeViewer viewer) {
-		_viewer = viewer;
+		treeViewer = viewer;
 	}
 
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
-		_viewer.getControl().setFocus();
+		treeViewer.getControl().setFocus();
 	}
 
 	public void setSubscriberNodes(ArrayList<Subscriber> subscriberNodes) {
-		SUBSCRIBER.addAll(subscriberNodes);
+		subscriberList.addAll(subscriberNodes);
 	}
 	
 	public TreeViewer getViewer(){
-		return _viewer;
+		return treeViewer;
 	}
 
 	public void setBaseStation(Subscriber baseStation){
-		BASESTATION = baseStation;
+		this.baseStation = baseStation;
 	}
 
 	public void clearSubscriberNodes() {
-		SUBSCRIBER.clear();
+		subscriberList.clear();
 	}
 
 	public static Subscriber getSelectedSubscriber(){

@@ -6,11 +6,8 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import comparator.scheduler.Scheduler;
-
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
-	public static Scheduler scheduler;
 	
     public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         super(configurer);
@@ -25,8 +22,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.setInitialSize(new Point(600, 400));
         configurer.setShowCoolBar(true);
         configurer.setShowStatusLine(false);
-        scheduler = new Scheduler();
-       
     }
     
 }

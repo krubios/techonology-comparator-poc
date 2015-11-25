@@ -52,7 +52,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         
         openFileAction = new OpenFileAction(window, "Open File");
         register(openFileAction);
-        
     }
     
     protected void fillMenuBar(IMenuManager menuBar) {

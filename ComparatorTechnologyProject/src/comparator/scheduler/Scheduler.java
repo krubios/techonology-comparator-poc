@@ -79,14 +79,14 @@ public class Scheduler {
 		// Calcula los simbolos de la trama
 		wimaxConfig.calculateFrameSymbols(numSS, max_distance);
 		// obtenemos la modulacion y codificacion para el DL
-		String dlWimaxModulation = InformationView.getHightWimaxModulationDL();
+		String dlWimaxModulation = InformationView.configurationProperties.getHightWimaxModulationDL();
 		if (!dlWimaxModulation.equals("")){
 			dlBitBySymbols = getModulationBitBySymbol(dlWimaxModulation);
 			dlCodeRate = getCodeRateModulation(dlWimaxModulation);
 		}
 
 		// obtenemos la modulacion y codificacion para el UL
-		String UlWimaxModulation = InformationView.getHightWimaxModulationUL();
+		String UlWimaxModulation = InformationView.configurationProperties.getHightWimaxModulationUL();
 		if (!UlWimaxModulation.equals("")){
 			ulBitBySymbols = getModulationBitBySymbol(UlWimaxModulation);
 			ulCodeRate = getCodeRateModulation(UlWimaxModulation);
@@ -116,7 +116,7 @@ public class Scheduler {
 		//Throughput Wifi
 		wifiConfig.calculateSaturationThroughput(numSS, max_distance);
 		//Obtenemos la modulación para el DL
-		String dlWifiModulation = InformationView.getHightWifiModulationDL();
+		String dlWifiModulation = InformationView.configurationProperties.getHightWifiModulationDL();
 		
 		if (wifiConfig.getRtsCapacityFlag()){
 			wifiConfig.getRtsThroughputSaturation(dlWifiModulation);
@@ -127,7 +127,7 @@ public class Scheduler {
 		}
 				
 		//Obtenemos la modulación para el UL
-		String ulWifiModulation = InformationView.getHightWifiModulationUL();
+		String ulWifiModulation = InformationView.configurationProperties.getHightWifiModulationUL();
 		
 		if (wifiConfig.getRtsCapacityFlag()){
 			wifiConfig.getRtsThroughputSaturation(ulWifiModulation);

@@ -22,7 +22,6 @@ public class Subscriber {
     /**Almacena la potencia recibida del enlace*/
     private float potencia_recibida_ul, potencia_recibida_dl;
     
-    /**Almacena la modulación empleada
     
     /** Construye un objeto equipo inicializando cada una de sus variables.
      * @param ul_snr SNR de uplink.
@@ -30,6 +29,7 @@ public class Subscriber {
      * @param distance Distancia a la BS
      * @param name Nombre del SS
      */
+   
     public Subscriber(float ul_snr, float dl_snr, float distance, String name) {
         this.ul_snr = ul_snr;
         this.dl_snr = dl_snr;
@@ -59,6 +59,7 @@ public class Subscriber {
     public Subscriber(String name){
     	this.name = name;
     }
+    
     public Subscriber() {
     }
 
