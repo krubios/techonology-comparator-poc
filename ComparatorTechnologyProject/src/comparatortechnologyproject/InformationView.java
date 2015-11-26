@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
 
-import comparator.actions.OpenFileAction;
-import comparator.scheduler.Scheduler;
+import comparator.preferences.wifi.WifiCapacity;
+import comparator.preferences.wimax.WimaxCapacity;
 import comparator.scheduler.Subscriber;
 
 public class InformationView extends ViewPart {
@@ -40,6 +40,8 @@ public class InformationView extends ViewPart {
 	public static TreeItem grandChildWimaxUL;
 
 	public static ConfigurationProperties configurationProperties = new ConfigurationProperties();
+	public static WimaxCapacity wimaxCapacity = new WimaxCapacity();
+	public static WifiCapacity wifiCapacity = new WifiCapacity();
 	
 	public void createPartControl(Composite parent) {
 
@@ -80,39 +82,39 @@ public class InformationView extends ViewPart {
 					configurationProperties = ConfigurationFactoryProperties.getInstance(event);
 					
 					if(configurationProperties.isFrameDurationChange()){
-						Scheduler.wimaxConfig.setFrameDuration(configurationProperties.getFrameDuration());
+						wimaxCapacity.setFrameDuration(configurationProperties.getFrameDuration());
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isWimaxFractionFrameDlChange()){
-						Scheduler.wimaxConfig.setFractionFrameDl(configurationProperties.getWifiFractionFrameDl());
+						wimaxCapacity.setFractionFrameDl(configurationProperties.getWifiFractionFrameDl());
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isWimaxFractionFrameUlChange()){
-						Scheduler.wimaxConfig.setFractionFrameUl(configurationProperties.getWifiFractionFrameUl());
+						wimaxCapacity.setFractionFrameUl(configurationProperties.getWifiFractionFrameUl());
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isBandWidthChange()){
-						Scheduler.wimaxConfig.setBandWidth(configurationProperties.getBandWidth());
+						wimaxCapacity.setBandWidth(configurationProperties.getBandWidth());
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isCyclixPrefixChange()){
-						Scheduler.wimaxConfig.setCyclixPrefix(configurationProperties.getCyclixPrefix());
+						wimaxCapacity.setCyclixPrefix(configurationProperties.getCyclixPrefix());
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isSifsRifsTimeChange()){
-						Scheduler.wifiConfig.setSifsRifs(configurationProperties.getSifsRifsTime());
+						wifiCapacity.setSifsRifs(configurationProperties.getSifsRifsTime());
 						refreshWifiCapacity();
 						
 					}else if (configurationProperties.isBlockACKOnOffChange()){
-						Scheduler.wifiConfig.setBlockAck(configurationProperties.getBlockACKOnOff());
+						wifiCapacity.setBlockAck(configurationProperties.getBlockACKOnOff());
 						refreshWifiCapacity();
 						
 					}else if (configurationProperties.isNumPackagesChange()){
-						Scheduler.wifiConfig.setNumPackages(configurationProperties.getNumPackages());
+						wifiCapacity.setNumPackages(configurationProperties.getNumPackages());
 						refreshWifiCapacity();
 						
 					}else if (configurationProperties.isPackagesSizeChange()){
-						Scheduler.wifiConfig.setPackagesSize(configurationProperties.getPackagesSize());
+						wifiCapacity.setPackagesSize(configurationProperties.getPackagesSize());
 						refreshWifiCapacity();
 						
 					}else if(configurationProperties.isSenbilityWimaxChange()){
@@ -133,11 +135,11 @@ public class InformationView extends ViewPart {
 						refreshWifiCapacity();
 						
 					}else if (configurationProperties.isWifiFractionFrameDlChange()){
-						Scheduler.wifiConfig.setFractionFrameDl(configurationProperties.getWifiFractionFrameDl());
+						wifiCapacity.setFractionFrameDl(configurationProperties.getWifiFractionFrameDl());
 						refreshWifiCapacity();
 						
 					}else if (configurationProperties.isWifiFractionFrameUlChange()){
-						Scheduler.wifiConfig.setFractionFrameUl(configurationProperties.getWifiFractionFrameUl());
+						wifiCapacity.setFractionFrameUl(configurationProperties.getWifiFractionFrameUl());
 						refreshWifiCapacity();
 					}
 				}
@@ -145,12 +147,12 @@ public class InformationView extends ViewPart {
 	}
 
 	protected void refreshWimaxCapacity() {
-		OpenFileAction.scheduler.wimaxScheduler();
+		wimaxCapacity.wimaxScheduler(NavigationView.scheduler);
 		showWimaxCapacityInformation();
 	}
 	
 	protected void refreshWifiCapacity() {
-		OpenFileAction.scheduler.wifiScheduler();
+		wifiCapacity.wifiScheduler(NavigationView.scheduler);
 		showWifiCapacityInformation();
 	}
 
@@ -328,22 +330,22 @@ public class InformationView extends ViewPart {
 	public void showWimaxCapacityInformation() {
 		grandChildWimaxDL.setText(
 				1,
-				Float.toString(OpenFileAction.scheduler
+				Float.toString(wimaxCapacity
 						.getDlWimaxCapacity()) + " Kbps");
 		grandChildWimaxUL.setText(
 				1,
-				Float.toString(OpenFileAction.scheduler
+				Float.toString(wimaxCapacity
 						.getUlWimaxCapacity()) + " Kbps");
 	}
 	
 	public void showWifiCapacityInformation() {
 		grandChildWifiDL.setText(
 				1,
-				Float.toString(OpenFileAction.scheduler
+				Float.toString(wifiCapacity
 						.getDlWifiCapacity()) + " Kbps");
 		grandChildWifiUL.setText(
 				1,
-				Float.toString(OpenFileAction.scheduler
+				Float.toString(wifiCapacity
 						.getUlWifiCapacity()) + " Kbps");
 	}
 }

@@ -18,19 +18,21 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import comparator.actions.OpenFileAction;
-import comparator.scheduler.FileManager;
+import comparator.scheduler.Scheduler;
 import comparator.scheduler.Subscriber;
 
 public class NavigationView extends ViewPart {
 	
 	public static final String DEFAULT_NODE_NAME="BaseStation";
-	private ArrayList<Subscriber> subscriberList = new ArrayList<Subscriber>();
-	private Subscriber baseStation;
 	public static final String ID = "ComparatorTechnologyProject.navigationView";
 	
-	public static Subscriber _selectedSubscriber = null;
+	private static Subscriber _selectedSubscriber = null;
 	private TreeViewer treeViewer;
+	public static Scheduler scheduler;
+	
+	public NavigationView(){
+		scheduler = new Scheduler();
+	}
 	 
 	
     /**
@@ -39,8 +41,9 @@ public class NavigationView extends ViewPart {
      */
     public TreeObject createDummyModel() {
     	TreeParent rootNode = new TreeParent(new Subscriber(DEFAULT_NODE_NAME));
+    	ArrayList<Subscriber> subscriberList = scheduler.getSubscriberNodes();
     	if (!subscriberList.isEmpty()){
-    		rootNode = new TreeParent(baseStation);
+    		rootNode = new TreeParent(scheduler.getBaseStation());
 	        for (Subscriber subscriber: subscriberList){
 	        	TreeObject to1 = new TreeObject(subscriber);
 	        	rootNode.addChild(to1);
@@ -102,19 +105,19 @@ public class NavigationView extends ViewPart {
 		TreeSelection sel = (TreeSelection) selection;
 		if (sel != null & sel.getFirstElement() != null){
 			_selectedSubscriber = ((TreeObject)sel.getFirstElement()).getSubscriber();
-			Subscriber BS = FileManager.getBaseStation();
 			for (IViewReference view : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences()){
 				if (view.getView(true) instanceof InformationView){
+					Subscriber baseStation = scheduler.getBaseStation();
 					InformationView informationView = (InformationView) view.getView(true);
-					if ((!_selectedSubscriber.getName().equals(DEFAULT_NODE_NAME)) && (BS != null && 
-							!_selectedSubscriber.getName().equals(BS.getName()))){
+					if ((!_selectedSubscriber.getName().equals(DEFAULT_NODE_NAME)) && (baseStation != null && 
+							!_selectedSubscriber.getName().equals(scheduler.getBaseStation().getName()))){
 						
 						InformationView.configurationProperties.showInformationSuscriber(informationView.tableViewer, 
 								InformationView.grandChildWimaxDL, InformationView.grandChildWimaxUL, 
 								InformationView.grandChildWifiDL, InformationView.grandChildWifiUL);
 						
-						OpenFileAction.scheduler.wimaxScheduler();
-						OpenFileAction.scheduler.wifiScheduler();
+						InformationView.wimaxCapacity.wimaxScheduler(scheduler);
+						InformationView.wifiCapacity.wifiScheduler(scheduler);
 						informationView.showWimaxCapacityInformation();
 						informationView.showWifiCapacityInformation();
 						
@@ -140,23 +143,19 @@ public class NavigationView extends ViewPart {
 		treeViewer.getControl().setFocus();
 	}
 
-	public void setSubscriberNodes(ArrayList<Subscriber> subscriberNodes) {
-		subscriberList.addAll(subscriberNodes);
-	}
-	
 	public TreeViewer getViewer(){
 		return treeViewer;
 	}
 
-	public void setBaseStation(Subscriber baseStation){
-		this.baseStation = baseStation;
-	}
-
 	public void clearSubscriberNodes() {
-		subscriberList.clear();
+		scheduler.getSubscriberNodes().clear();
 	}
 
 	public static Subscriber getSelectedSubscriber(){
 		return _selectedSubscriber;
+	}
+
+	public Scheduler getScheduler(){
+		return scheduler;
 	}
 }

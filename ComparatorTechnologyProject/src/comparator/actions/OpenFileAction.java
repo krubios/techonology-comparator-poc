@@ -8,7 +8,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import comparator.scheduler.Auxiliary;
-import comparator.scheduler.Scheduler;
 import comparatortechnologyproject.Activator;
 import comparatortechnologyproject.ICommandIds;
 import comparatortechnologyproject.NavigationView;
@@ -19,13 +18,10 @@ public class OpenFileAction extends Action {
 	// Lista de redes definidas en el fichero de RadioMobile
 	private String[] netList = new String[0];
 	
-	public static Scheduler scheduler;
-	
 
 	public OpenFileAction(IWorkbenchWindow window, String label) {
 		
 		super(label);
-		scheduler = new Scheduler();
 		this.window = window;
 		setId(ICommandIds.CMD_OPEN_FILE);
 		setActionDefinitionId(ICommandIds.CMD_OPEN_FILE);
@@ -45,7 +41,7 @@ public class OpenFileAction extends Action {
 
 		// Cargamos información del fichero report
 		try {
-			netList = scheduler
+			netList = NavigationView.scheduler
 					.loadNet(firstFile);
 		} catch (Exception e) {
 			Auxiliary.showErrorMessage(shell,
@@ -62,7 +58,7 @@ public class OpenFileAction extends Action {
 					Messages.SelectImporteNetMessage, netList);
 			String netName = ComboDialog.getNetName();
 			try {
-				scheduler.loadNetFile(firstFile, netName);
+				NavigationView.scheduler.loadNetFile(firstFile, netName);
 
 			} catch (Exception e) {
 				Auxiliary.showErrorMessage(shell,
@@ -82,8 +78,6 @@ public class OpenFileAction extends Action {
 			{
 				NavigationView navigationView = (NavigationView) view.getView(true);
 				navigationView.clearSubscriberNodes();
-				navigationView.setSubscriberNodes(scheduler.getSubscriberNodes());
-				navigationView.setBaseStation(scheduler.getBaseStation());
 				navigationView.getViewer().setInput(navigationView.createDummyModel());
 			}
 		}

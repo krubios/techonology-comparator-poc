@@ -53,7 +53,6 @@ public class Subscriber {
         this.ul_snr = 0;
         this.dl_snr = 0;
         this.distance = 1;
-
     }
 
     public Subscriber(String name){

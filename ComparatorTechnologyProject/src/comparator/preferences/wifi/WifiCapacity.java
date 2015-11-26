@@ -5,7 +5,9 @@ import java.util.Map;
 
 import comparator.preferences.PreferenceConstants;
 import comparator.scheduler.Auxiliary;
+import comparator.scheduler.Scheduler;
 import comparatortechnologyproject.Activator;
+import comparatortechnologyproject.InformationView;
 
 /**
  * Esta clase es la encargada de calcular la capacidad de wifi
@@ -62,6 +64,10 @@ public class WifiCapacity {
 	private float success_probability, busy_probability,
 			slot_time_with_distance, ts_basic, tc_basic, ts_rts, tc_rts, dl_basic_saturation, ul_basic_saturation,
 			dl_rts_saturation, ul_rts_saturation, basic_saturation, rts_saturation;
+	
+	private float dl_totalWifiCapacity;
+	private float ul_totalWifiCapacity;
+
 	
 	public WifiCapacity() {
 
@@ -120,6 +126,39 @@ public class WifiCapacity {
 		}
 	}
 
+	
+	public String wifiScheduler(Scheduler scheduler){
+		
+		String message = "Servicios Wifi Creados!";
+		
+		// Calcula la distancia máxima
+		Auxiliary.setMaxDistance(scheduler.getSubscriberNodes());
+		
+		//Throughput Wifi
+		calculateSaturationThroughput(scheduler.getNumNodes(), Auxiliary.getMaxDistance());
+		//Obtenemos la modulación para el DL
+		String dlWifiModulation = InformationView.configurationProperties.getHightWifiModulationDL();
+		
+		if (getRtsCapacityFlag()){
+			getRtsThroughputSaturation(dlWifiModulation);
+			dl_totalWifiCapacity = getRtsThroughputSaturationDl();
+		}else{
+			getBasicThroughputSaturation(dlWifiModulation);
+			dl_totalWifiCapacity = getBasicThroughputSaturationDl();
+		}
+				
+		//Obtenemos la modulación para el UL
+		String ulWifiModulation = InformationView.configurationProperties.getHightWifiModulationUL();
+		
+		if (getRtsCapacityFlag()){
+			getRtsThroughputSaturation(ulWifiModulation);
+			ul_totalWifiCapacity = getRtsThroughputSaturationUl();
+		}else{
+			getBasicThroughputSaturation(ulWifiModulation);
+			ul_totalWifiCapacity = getBasicThroghputSaturationUl();
+		}
+		return message;
+	}
 	public void calculateSaturationThroughput(int num_subscriber, float distance) {
 
 		if (num_subscriber > 1) {
@@ -298,7 +337,7 @@ public class WifiCapacity {
 		return  value;
 	}
 
-	public float getSifsRifsValue(String sifs_rifs) {
+	public static float getSifsRifsValue(String sifs_rifs) {
 		float sifs_rifs_value = 0;
 		if (sifs_rifs.equals("10/16")) {
 			sifs_rifs_value = (float) (10.0 / 16.0);
@@ -355,4 +394,13 @@ public class WifiCapacity {
 	public void setFractionFrameUl(float value) {
 		this.FRACTION_FRAME_TIME_UL = value;
 	}
+	
+	public float getDlWifiCapacity(){
+		return dl_totalWifiCapacity * 1000;
+	}
+	
+	public float getUlWifiCapacity(){
+		return ul_totalWifiCapacity * 1000;
+	}
+	
 }

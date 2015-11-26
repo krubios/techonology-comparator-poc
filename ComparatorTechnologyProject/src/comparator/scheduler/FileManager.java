@@ -23,11 +23,8 @@ public class FileManager {
     //Vector de equipos detectados en el fichero de RadioMobile
     private Vector<Equipo> equipos;
     //Nodo que ejerce de estación base
-    public static Subscriber baseStation = new Subscriber();
+    private Subscriber baseStation = new Subscriber();
 
-    //Nodos del report
-    private ArrayList<Subscriber> nodeList;
-    
     /** Devuelve un vector con la informacion disponible de cada uno de los nodos definidos en el report de Radio Mobile.
      * @see Lectura#getFichero
      * @see Lectura#saltarLineas
@@ -133,7 +130,6 @@ public class FileManager {
 
         //Lee la lista de estaciones definidas en el archivo de RadioMobile
         Vector<Subscriber> subscriberList = importSubscribers(path);
-        setNodeList(subscriberList);
 
         // Creamos los objetos necesarios para poder leer del fichero
         FileReader archivo = new FileReader(path);
@@ -256,16 +252,6 @@ public class FileManager {
         return listSubscribers(potencias_slave, potencias_master, nodos_enlace, noisePower, equipos_enlace, subscriberList);
     }
 
-   
-	public void setNodeList(Vector<Subscriber> subscriberList) {
-    	nodeList = new ArrayList<Subscriber>(subscriberList);
-	}
-    
-    public ArrayList<Subscriber> getNodeList(){
-    	return nodeList;
-    }
-
-    
 
 	/** Salta un numero de linea de la variable entrada indicado en num_linea.
      * @param num_lineas Numero de linea que saltaremos.
@@ -332,8 +318,6 @@ public class FileManager {
         //Recorre los arrays recopilando los datos de cada enlace e incorporandolos
         //al vector de subscriptoras
         for (int index = 0;index<leng; index++){
-        	//TODO
-        	///Comprobar que esta calculando!
             Subscriber subs = Auxiliary.searchSubscriber(nodos_enlace[index+1],subscriberList);
             //Calcula la distancia a la BS
             distance = getDistance(subs.getX(), subs.getY(), subs.getZ());
@@ -344,7 +328,6 @@ public class FileManager {
             potencia_recibida_ul = (float) (potencias_master[index] + baseThreshold - 50);
             potencia_recibida_dl = (float) (potencias_slave[index] + device.getRx_thr() -50);
             
-            
             //Inserta el nombre las SNR y la distancia.
             subs.modify(nodos_enlace[index+1], distance, snr_ul, snr_dl, potencia_recibida_ul, potencia_recibida_dl);
             subscribers.add(subs);
@@ -352,24 +335,6 @@ public class FileManager {
 
         return subscribers;
     }
-
-
-	public float getThroughput(float snr_ul_db, float snr_dl_db) {
-    	float throughput = 0;
-    	Equipo equipo = new Equipo();
-    	//Ancho de banda 10E6 Hz
-    	float bandWight = equipo.getBandWidth();
-    	//Convertimos los valores de las snr a valores naturales.
-    	float snr_ul = (float) Math.pow(10, snr_ul_db/10);
-    	float snr_dl = (float) Math.pow(10, snr_dl_db/10);
-    	if (snr_dl == snr_ul){
-    		throughput = (float) (Math.pow(bandWight,6)*(Math.log(1+ snr_dl)/ Math.log(2)))/1000;
-    	}
-    	
-    	//Devolvemos BW en Kbps
-    	return throughput;
-	}
-
 
 	/**
      * Busca un Equipo en función del nombre que se pasa como parámetro
@@ -388,7 +353,6 @@ public class FileManager {
             }
         }
         return null;
-
     }
 
     /**
@@ -527,7 +491,7 @@ public class FileManager {
 
     }
     
-    public static Subscriber getBaseStation(){
+    public Subscriber getBaseStation(){
     	return baseStation;
     }
 

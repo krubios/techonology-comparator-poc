@@ -3,8 +3,9 @@ package comparatortechnologyproject;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import comparator.preferences.PreferenceConstants;
+import comparator.preferences.wifi.WifiCapacity;
+import comparator.preferences.wimax.WimaxCapacity;
 import comparator.scheduler.Auxiliary;
-import comparator.scheduler.Scheduler;
 
 /**
  * Clase que lee las propiedades de configuración tanto de Wimax como Wifi
@@ -46,13 +47,13 @@ public class ConfigurationFactoryProperties {
 			
 		}else if (event.getProperty().equals(PreferenceConstants.CYCLIX_PREFIX)){
 			String cyclixPrefix = event.getNewValue().toString();
-			float cyclixPrefixValue = Scheduler.wimaxConfig.getCyclixPrefixValue(cyclixPrefix);
+			float cyclixPrefixValue = WimaxCapacity.getCyclixPrefixValue(cyclixPrefix);
 			configurationProperties.setCyclixPrefix(cyclixPrefixValue);
 			configurationProperties.setCyclixPrefixChange(true);
 			
 		}else if (event.getProperty().equals(PreferenceConstants.COMBO_SIFS_RIFS)){
 			String comboSifsDifsValue = event.getNewValue().toString();
-			float comboValue = Scheduler.wifiConfig.getSifsRifsValue(comboSifsDifsValue);
+			float comboValue = WifiCapacity.getSifsRifsValue(comboSifsDifsValue);
 			configurationProperties.setSifsRifsTime(comboValue);
 			configurationProperties.setSifsRifsTimeChange(true);
 			

@@ -1,8 +1,11 @@
 package comparator.preferences.wimax;
 
+import comparator.preferences.Messages;
 import comparator.preferences.PreferenceConstants;
 import comparator.scheduler.Auxiliary;
+import comparator.scheduler.Scheduler;
 import comparatortechnologyproject.Activator;
+import comparatortechnologyproject.InformationView;
 
 /**
  * Configuración de Wimax para obtener los símbolos y calcular la capacidad ofrecida.
@@ -53,6 +56,10 @@ public class WimaxCapacity {
     private int dl_data_symbols,ul_data_symbols,dl_overHead,ul_overHead, dl_totalsymbols, ul_totalsymbols,
     			bits_Phy_Ul, bits_Phy_Dl, mac_overHead;
     
+    //Capacidad total
+    public static float dl_totalWimaxCapacity;
+	public static float ul_totalWimaxCapacity;
+    
 	public WimaxCapacity(){
 		String bw = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.BAND_WIDTH);
 		String cp = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.CYCLIX_PREFIX);
@@ -94,6 +101,50 @@ public class WimaxCapacity {
 		this.PACKING_SUBHEADER_LENGTH = 2*8;
 	}
 	
+	public String wimaxScheduler(Scheduler scheduler) {
+		String message = "Servicios Wimax Creados!";
+
+		dl_totalWimaxCapacity = 0;
+		ul_totalWimaxCapacity = 0;
+		int dlBitBySymbols = 0;
+		float dlCodeRate = 0;
+		int ulBitBySymbols = 0;
+		float ulCodeRate = 0;
+		
+		// Calcula la distancia máxima
+		Auxiliary.setMaxDistance(scheduler.getSubscriberNodes());
+
+		//Throughput Wimax
+		// Calcula los simbolos de la trama
+		calculateFrameSymbols(scheduler.getNumNodes(), Auxiliary.getMaxDistance());
+		// obtenemos la modulacion y codificacion para el DL
+		String dlWimaxModulation = InformationView.configurationProperties.getHightWimaxModulationDL();
+		if (!dlWimaxModulation.equals("")){
+			dlBitBySymbols = getModulationBitBySymbol(dlWimaxModulation);
+			dlCodeRate = getCodeRateModulation(dlWimaxModulation);
+		}
+
+		// obtenemos la modulacion y codificacion para el UL
+		String UlWimaxModulation = InformationView.configurationProperties.getHightWimaxModulationUL();
+		if (!UlWimaxModulation.equals("")){
+			ulBitBySymbols = getModulationBitBySymbol(UlWimaxModulation);
+			ulCodeRate = getCodeRateModulation(UlWimaxModulation);
+		}
+
+		float capacityDlPhy = getCapacityDL_PHY(dlBitBySymbols, dlCodeRate);
+		float capaciyUlPhy = getCapacityUL_PHY(ulBitBySymbols, ulCodeRate);
+
+		if (capacityDlPhy != 0){
+			dl_totalWimaxCapacity = getCapabilityDL_MAC();
+		}
+		
+		if (capaciyUlPhy != 0){
+			ul_totalWimaxCapacity = getCapabilityUL_MAC();
+		}
+		
+		return message;
+	}
+	
 	private float getFrameDurationValue(String fd) {
 		float frameDuration= 0;
 		if (fd.equals("2.5")){
@@ -108,7 +159,7 @@ public class WimaxCapacity {
 		return frameDuration;
 	}
 
-	public float getCyclixPrefixValue(String cp) {
+	public static float getCyclixPrefixValue(String cp) {
 		float cpValue= 0;
 		if (cp.equals("1/32")){
 			cpValue = (float) (1.0/32.0);
@@ -306,6 +357,53 @@ public class WimaxCapacity {
 		return OfdmSymbolTime;
 	}
 	
+	/**
+	 * Calcula la codificación segun la modulación empleada
+	 * @param newValue
+	 * @return
+	 */
+	private float getCodeRateModulation(String newValue) {
+		float code = 0;
+		if (newValue.trim().equals(Messages.QPSK_1_2_PROVIDER.trim())
+				|| (newValue.trim().equals(Messages.QAM16_1_2_PROVIDER.trim()))) {
+			code = (float) (1.0 / 2.0);
+		} else if (newValue.trim().equals(Messages.QPSK_3_4_PROVIDER.trim())
+				|| (newValue.trim().equals(Messages.QAM16_3_4_PROVIDER.trim()))
+				|| (newValue.trim().equals(Messages.QAM64_3_4_PROVIDER.trim()))) {
+			code = (float) (3.0 / 4.0);
+		} else if (newValue.trim().equals(Messages.QAM64_2_3_PROVIDER.trim())) {
+			code = (float) (2.0 / 3.0);
+		} else if (newValue.trim().equals(Messages.BPSK_1_2_PROVIDER.trim())) {
+			code = (float) (1.0 / 2.0);
+		}
+		return code;
+	}
+
+	/**
+	 * Obtiene los bit por símbolos de modulación
+	 * @param newValue
+	 * @return
+	 */
+	private int getModulationBitBySymbol(String newValue) {
+		int symbol = 0;
+		if (newValue.trim().equals(Messages.QPSK_1_2_PROVIDER.trim())) {
+			symbol = 4;
+		} else if (newValue.trim().equals(Messages.QPSK_3_4_PROVIDER.trim())) {
+			symbol = 4;
+		} else if (newValue.trim().equals(Messages.QAM16_1_2_PROVIDER.trim())) {
+			symbol = 16;
+		} else if (newValue.trim().equals(Messages.QAM16_3_4_PROVIDER.trim())) {
+			symbol = 16;
+		} else if (newValue.trim().equals(Messages.QAM64_2_3_PROVIDER.trim())) {
+			symbol = 64;
+		} else if (newValue.trim().equals(Messages.QAM64_3_4_PROVIDER.trim())) {
+			symbol = 64;
+		} else if (newValue.trim().equals(Messages.BPSK_1_2_PROVIDER.trim())){
+			symbol = 2;
+		}
+		return symbol;
+	}
+	
 	public void setBandWidth(float bw){
 		this.BANDWIDTH = bw;
 	}
@@ -352,6 +450,14 @@ public class WimaxCapacity {
 	
 	public float getFractionFrameUl(){
 		return FRACTION_FRAME_TIME_UL;
+	}
+	
+	public float getDlWimaxCapacity(){
+		return dl_totalWimaxCapacity / 1000;
+	}
+	
+	public float getUlWimaxCapacity(){
+		return ul_totalWimaxCapacity /1000;
 	}
 
 }

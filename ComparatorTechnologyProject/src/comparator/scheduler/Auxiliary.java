@@ -18,6 +18,9 @@ import comparator.preferences.wifi.WifiPreferenceData;
  */
 public final class Auxiliary {
 	
+	private static float max_distance = 0;
+	private static Subscriber baseStation = new Subscriber();
+	
 	private static final String[] MCS_0 = {"MCS0", "MCS0"};
 	private static final String[] MCS_1 = {"MCS1", "MCS1"};
 	private static final String[] MCS_2 = {"MCS2", "MCS2"};
@@ -245,5 +248,42 @@ public final class Auxiliary {
 			}
 		}
 		return mayor;
+	}
+	
+	/**
+	 * Recorre el vector de usuarios para encontrar el usuario a mayor distancia
+	 */
+	public static void setMaxDistance(ArrayList<Subscriber> listSubscriberNodes) {
+		// Inicializa a 0 el valor de max_distance
+		// Recorre el vector de usuarios
+		for (Iterator<Subscriber> it = listSubscriberNodes.iterator(); it
+				.hasNext();) {
+			Subscriber user = (Subscriber) it.next();
+			// Si la distancia máxima del CPE supera a la anterior
+			if (max_distance < user.getDistance()) {
+				max_distance = user.getDistance();
+			}
+		}
+	}
+	
+	public static float getMaxDistance(){
+		return max_distance;
+	}
+
+	public static void setBaseStation(String name,
+			Vector<Subscriber> vector) {
+		Iterator<?> it = vector.iterator();
+        while (it.hasNext()) {
+            Subscriber current = (Subscriber) (it.next());
+            //Si el nombre de un SS coincide con el parametro "name"
+            //devuelve el objeto SS
+            if (current.getName().equals(name)) {
+            	baseStation = current;
+            }
+        }
+	}
+	
+	public static Subscriber getBaseStation(){
+		return baseStation;
 	}
 }
