@@ -65,8 +65,7 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="ComparatorTechnologyProject.application"
-            name="Comparador de Tecnologías">
+            application="ComparatorTechnologyProject.application">
          <property
                name="aboutText"
                value="Comparador de Tecnologías Wimax y Wifi &#x0A;Version 1.0.0&#x0A;by Karla Rubio Sopan&#x0A;&#x0A;For more information on Eclipse and the&#x0A;Rich Client Platform visit:&#x0A;http://www.eclipse.org">
