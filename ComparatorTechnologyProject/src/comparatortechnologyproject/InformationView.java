@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
 
 import comparator.preferences.wifi.WifiCapacity;
+import comparator.preferences.wifi.tdma.WifiTdmaCapacity;
 import comparator.preferences.wimax.WimaxCapacity;
 import comparator.scheduler.Subscriber;
 
@@ -33,15 +34,28 @@ public class InformationView extends ViewPart {
 	
 	public TableViewer tableViewer;
 
-	public static TreeItem grandChildWifiDL;
-	public static TreeItem grandChildWifiUL;
+	public static TreeItem grandChildWifiDl;
+	public static TreeItem grandChildWifiUl;
 
-	public static TreeItem grandChildWimaxDL;
-	public static TreeItem grandChildWimaxUL;
+	public static TreeItem grandChildWimaxDl;
+	public static TreeItem grandChildWimaxUl;
+	
+	public static TreeItem grandChildWifiTdmaDl;
+	public static TreeItem grandChildWifiTdmaUl;
 
-	public static ConfigurationProperties configurationProperties = new ConfigurationProperties();
-	public static WimaxCapacity wimaxCapacity = new WimaxCapacity();
-	public static WifiCapacity wifiCapacity = new WifiCapacity();
+	public static ConfigurationProperties configurationProperties;
+	public static WimaxCapacity wimaxCapacity;
+	public static WifiCapacity wifiCapacity;
+	public static WifiTdmaCapacity wifiTdmaCapacity;
+	
+	
+	public InformationView() {
+		
+		configurationProperties = new ConfigurationProperties();
+		wimaxCapacity = new WimaxCapacity();
+		wifiCapacity = new WifiCapacity();
+		wifiTdmaCapacity = new WifiTdmaCapacity();
+	}
 	
 	public void createPartControl(Composite parent) {
 
@@ -86,11 +100,11 @@ public class InformationView extends ViewPart {
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isWimaxFractionFrameDlChange()){
-						wimaxCapacity.setFractionFrameDl(configurationProperties.getWifiFractionFrameDl());
+						wimaxCapacity.setFractionFrameDl(configurationProperties.getWimaxFractionFrameDl());
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isWimaxFractionFrameUlChange()){
-						wimaxCapacity.setFractionFrameUl(configurationProperties.getWifiFractionFrameUl());
+						wimaxCapacity.setFractionFrameUl(configurationProperties.getWimaxFractionFrameUl());
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isBandWidthChange()){
@@ -119,19 +133,22 @@ public class InformationView extends ViewPart {
 						
 					}else if(configurationProperties.isSenbilityWimaxChange()){
 						
-						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDL, grandChildWimaxUL,
-																	grandChildWifiDL, grandChildWifiUL);
+						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDl, grandChildWimaxUl,
+																	grandChildWifiDl, grandChildWifiUl, grandChildWifiTdmaDl,
+																	grandChildWifiTdmaUl);
 						refreshWimaxCapacity();
 						
 					}else if (configurationProperties.isMimoOrSensibilityWifiChange()){
 						
-						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDL, grandChildWimaxUL,
-																	grandChildWifiDL, grandChildWifiUL);
+						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDl, grandChildWimaxUl,
+																	grandChildWifiDl, grandChildWifiUl, grandChildWifiTdmaDl,
+																	grandChildWifiTdmaUl);
 						refreshWifiCapacity();
 						
 					}else if (configurationProperties.isRtsCapacityFlagChange()){
-						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDL, grandChildWimaxUL,
-																	grandChildWifiDL, grandChildWifiUL);
+						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDl, grandChildWimaxUl,
+																	grandChildWifiDl, grandChildWifiUl, grandChildWifiTdmaDl,
+																	grandChildWifiTdmaUl);
 						refreshWifiCapacity();
 						
 					}else if (configurationProperties.isWifiFractionFrameDlChange()){
@@ -141,6 +158,14 @@ public class InformationView extends ViewPart {
 					}else if (configurationProperties.isWifiFractionFrameUlChange()){
 						wifiCapacity.setFractionFrameUl(configurationProperties.getWifiFractionFrameUl());
 						refreshWifiCapacity();
+					
+					}else if (configurationProperties.isWifiTdmaFractionFrameDlChange()){
+						wifiTdmaCapacity.setFractionFrameDl(configurationProperties.getWifiTdmaFractionFrameDl());
+						refreshWifiTdmaCapacity();
+						
+					}else if (configurationProperties.isWifiTdmaFractionFrameUlChange()){
+						wifiTdmaCapacity.setFractionFrameUl(configurationProperties.getWifiTdmaFractionFrameUl());
+						refreshWifiTdmaCapacity();
 					}
 				}
 			});
@@ -155,20 +180,29 @@ public class InformationView extends ViewPart {
 		wifiCapacity.wifiScheduler(NavigationView.scheduler);
 		showWifiCapacityInformation();
 	}
+	
+	protected void refreshWifiTdmaCapacity(){
+		wifiTdmaCapacity.wifiTdmaScheduler(NavigationView.scheduler);
+		showWifiTdmaCapacityInformation();
+	}
 
 	private void createTechnologyUsedViewer(Composite parent) {
 		GridData gridData = new GridData();
 		gridData.widthHint = 700;
 		gridData.heightHint = 200;
 		parent.setLayoutData(gridData);
-		parent.setLayout(new GridLayout(3, true));
+		parent.setLayout(new GridLayout(2, true));
 		Tree wimaxTree = new Tree(parent, SWT.MULTI | SWT.FULL_SELECTION);
 		createColumns(wimaxTree);
 		fillTree(wimaxTree, "Wimax");
-
+		
 		Tree wifiTree = new Tree(parent, SWT.MULTI | SWT.FULL_SELECTION);
 		createColumns(wifiTree);
 		fillTree(wifiTree, "Wifi");
+		
+		Tree wifiTdmaTree = new Tree(parent, SWT.MULTI | SWT.FULL_SELECTION);
+		createColumns(wifiTdmaTree);
+		fillTree(wifiTdmaTree, "NV2");
 	}
 
 	private void createColumns(Tree tree) {
@@ -193,28 +227,37 @@ public class InformationView extends ViewPart {
 		item.setFont(boldFont);
 
 		// Create three children below the root
-		TreeItem childDL = new TreeItem(item, SWT.NONE);
-		childDL.setText("DL");
-		TreeItem childUL = new TreeItem(item, SWT.NONE);
-		childUL.setText("UL");
+		TreeItem childDl = new TreeItem(item, SWT.NONE);
+		childDl.setText("DL");
+		TreeItem childUl = new TreeItem(item, SWT.NONE);
+		childUl.setText("UL");
 
 		if (name.equals("Wimax")) {
-			grandChildWimaxDL = new TreeItem(childDL, SWT.NONE);
-			grandChildWimaxDL.setText("");
-			grandChildWimaxDL.setText(1, "");
+			grandChildWimaxDl = new TreeItem(childDl, SWT.NONE);
+			grandChildWimaxDl.setText("");
+			grandChildWimaxDl.setText(1, "");
 
-			grandChildWimaxUL = new TreeItem(childUL, SWT.NONE);
-			grandChildWimaxUL.setText("");
-			grandChildWimaxUL.setText(1, "");
+			grandChildWimaxUl = new TreeItem(childUl, SWT.NONE);
+			grandChildWimaxUl.setText("");
+			grandChildWimaxUl.setText(1, "");
 
 		} else if (name.equals("Wifi")) {
-			grandChildWifiDL = new TreeItem(childDL, SWT.NONE);
-			grandChildWifiDL.setText("");
-			grandChildWifiDL.setText(1,"");
+			grandChildWifiDl = new TreeItem(childDl, SWT.NONE);
+			grandChildWifiDl.setText("");
+			grandChildWifiDl.setText(1,"");
 
-			grandChildWifiUL = new TreeItem(childUL, SWT.NONE);
-			grandChildWifiUL.setText("");
-			grandChildWifiUL.setText(1, "");
+			grandChildWifiUl = new TreeItem(childUl, SWT.NONE);
+			grandChildWifiUl.setText("");
+			grandChildWifiUl.setText(1, "");
+			
+		} else if (name.equals("NV2")){
+			grandChildWifiTdmaDl = new TreeItem(childDl, SWT.NONE);
+			grandChildWifiTdmaDl.setText("");
+			grandChildWifiTdmaDl.setText(1,"");
+
+			grandChildWifiTdmaUl = new TreeItem(childUl, SWT.NONE);
+			grandChildWifiTdmaUl.setText("");
+			grandChildWifiTdmaUl.setText(1, "");
 		}
 
 		tree.setRedraw(true);
@@ -317,35 +360,50 @@ public class InformationView extends ViewPart {
 	}
 
 	public void clearTree() {
-		grandChildWifiDL.setText("");
-		grandChildWifiUL.setText("");
-		grandChildWifiDL.setText(1,"");
-		grandChildWifiUL.setText(1,"");
-		grandChildWimaxDL.setText("");
-		grandChildWimaxUL.setText("");
-		grandChildWimaxDL.setText(1, "");
-		grandChildWimaxUL.setText(1, "");
+		
+		//wifi
+		grandChildWifiDl.setText("");
+		grandChildWifiUl.setText("");
+		grandChildWifiDl.setText(1,"");
+		grandChildWifiUl.setText(1,"");
+		//wimax
+		grandChildWimaxDl.setText("");
+		grandChildWimaxUl.setText("");
+		grandChildWimaxDl.setText(1, "");
+		grandChildWimaxUl.setText(1, "");
+		//wifiTdma
+		grandChildWifiTdmaDl.setText("");
+		grandChildWifiTdmaUl.setText("");
+		grandChildWifiTdmaDl.setText(1,"");
+		grandChildWifiTdmaUl.setText(1,"");
 	}
 
 	public void showWimaxCapacityInformation() {
-		grandChildWimaxDL.setText(
+		grandChildWimaxDl.setText(
 				1,
 				Float.toString(wimaxCapacity
 						.getDlWimaxCapacity()) + " Kbps");
-		grandChildWimaxUL.setText(
+		grandChildWimaxUl.setText(
 				1,
 				Float.toString(wimaxCapacity
 						.getUlWimaxCapacity()) + " Kbps");
 	}
 	
 	public void showWifiCapacityInformation() {
-		grandChildWifiDL.setText(
+		grandChildWifiDl.setText(
 				1,
 				Float.toString(wifiCapacity
 						.getDlWifiCapacity()) + " Kbps");
-		grandChildWifiUL.setText(
+		grandChildWifiUl.setText(
 				1,
 				Float.toString(wifiCapacity
 						.getUlWifiCapacity()) + " Kbps");
+	}
+	
+	
+	public void showWifiTdmaCapacityInformation(){
+		
+		grandChildWifiTdmaDl.setText(1, Float.toString(wifiTdmaCapacity.getDlWifiTdmaCapacity()) + "Kbps");
+		grandChildWifiTdmaUl.setText(1, Float.toString(wifiTdmaCapacity.getUlWifiTdmaCapacity()) + "Kbps");
 	}
 }

@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TreeItem;
 
 import comparator.preferences.wifi.WifiComboFieldEditor;
+import comparator.preferences.wifi.tdma.WifiTdmaCapacity;
 import comparator.preferences.wimax.WimaxComboFieldEditor;
 import comparator.scheduler.Auxiliary;
 import comparator.scheduler.Subscriber;
@@ -41,6 +42,9 @@ public class ConfigurationProperties {
 	private float wifiFractionFrameDl;
 	private float wifiFractionFrameUl;
 	
+	private float wifiTdmaFractionFrameDl;
+	private float wifiTdmaFractionFrameUl;
+	
 	private boolean frameDurationChange;
 	private boolean wimaxFractionFrameDlChange;
 	private boolean wimaxFractionFrameUlChange;
@@ -55,6 +59,8 @@ public class ConfigurationProperties {
 	private boolean wifiFractionFrameUlChange;
 	private boolean senbilityWimaxChange;
 
+	private boolean wifiTdmaFractionFrameDlChange;
+	private boolean wifiTdmaFractionFrameUlChange;
 	private boolean mimoOrSensibilityWifiChange;
 	
 	public ConfigurationProperties(){
@@ -250,7 +256,7 @@ public class ConfigurationProperties {
 
 	public void showInformationSuscriber(TableViewer tableViewer,
 			TreeItem grandChildWimaxDL, TreeItem grandChildWimaxUL,
-			TreeItem grandChildWifiDL, TreeItem grandChildWifiUL) {
+			TreeItem grandChildWifiDL, TreeItem grandChildWifiUL, TreeItem grandChildWifiTdmaDl, TreeItem grandChildWifiTdmaUl) {
 
 		Subscriber subscriber = NavigationView.getSelectedSubscriber();
 		if ( subscriber != null){
@@ -265,6 +271,9 @@ public class ConfigurationProperties {
 
 			grandChildWifiDL.setText(showBestWifiDlModulation(subscriber.getPotenciaRecibida_Dl()));
 			grandChildWifiUL.setText(showBestWifiUlModulation(subscriber.getPotenciaRecibida_Ul()));
+			
+			grandChildWifiTdmaDl.setText(WifiTdmaCapacity.max_modulation_dl);
+			grandChildWifiTdmaUl.setText(WifiTdmaCapacity.max_modulation_ul);
 		}
 	}
 	
@@ -407,5 +416,31 @@ public class ConfigurationProperties {
 	
 	public boolean isMimoOrSensibilityWifiChange() {
 		return mimoOrSensibilityWifiChange;
+	}
+	public boolean isWifiTdmaFractionFrameDlChange() {
+		return wifiTdmaFractionFrameDlChange;
+	}
+	public float getWifiTdmaFractionFrameDl() {
+		return wifiTdmaFractionFrameDl;
+	}
+	public float getWifiTdmaFractionFrameUl() {
+		return wifiTdmaFractionFrameUl;
+	}
+	public boolean isWifiTdmaFractionFrameUlChange() {
+		return wifiTdmaFractionFrameUlChange;
+	}
+	
+	public void setWifiTdmaFractionFrameDlChange(boolean wifiTdmaFractionFrameDlChange) {
+		this.wifiTdmaFractionFrameDlChange = wifiTdmaFractionFrameDlChange;
+	}
+	
+	public void setWifiTdmaFractionFrameUlChange(boolean wifiTdmaFractionFrameUlChange) {
+		this.wifiTdmaFractionFrameUlChange = wifiTdmaFractionFrameUlChange;
+	}
+	public void setWifiTdmaFractionFrameDl(float wifiTdmaFractionFrameDl) {
+		this.wifiTdmaFractionFrameDl = wifiTdmaFractionFrameDl;
+	}
+	public void setWifiTdmaFractionFrameUl(float wifiTdmaFractionFrameUl) {
+		this.wifiTdmaFractionFrameUl = wifiTdmaFractionFrameUl;
 	}
 }

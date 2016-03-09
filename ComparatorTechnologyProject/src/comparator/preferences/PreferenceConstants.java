@@ -14,6 +14,10 @@ public class PreferenceConstants {
 	public static final String SENSIBILITY_WIFI = "SENSIBILITYWIFI";
 	public static final String MIMO_WIFI = "MIMOWIFI";
 	
+	//Wifi TDMA
+	public static final String WIFI_TDMA_FRACTION_FRAME_DL = "WIFITDMAFRACTIONFRAMEDL";
+	public static final String WIFI_TDMA_FRACTION_FRAME_UL = "WIFITDMAFRACTIONFRAMEUL";
+	
 	//Wimax capacity
 	public static final String BAND_WIDTH = "BAND_WIDTH";
 	public static final String CYCLIX_PREFIX = "CYCLIXPREFIX";

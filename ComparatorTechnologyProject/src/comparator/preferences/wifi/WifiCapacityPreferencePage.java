@@ -1,5 +1,6 @@
 package comparator.preferences.wifi;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
@@ -33,7 +34,7 @@ public class WifiCapacityPreferencePage extends FieldEditorPreferencePage implem
 		
 		IntegerFieldEditor packages_size = new IntegerFieldEditor(PreferenceConstants.PACKAGES_SIZE, Messages.PreferencePage_PackagesSize, getFieldEditorParent());
 		
-		IntegerFieldEditor block_ack = new IntegerFieldEditor(PreferenceConstants.BLOCK_ACK_ON_OFF, Messages.PreferencePage_BlockACKOnOff, getFieldEditorParent());
+		BooleanFieldEditor block_ack = new BooleanFieldEditor(PreferenceConstants.BLOCK_ACK_ON_OFF, Messages.PreferencePage_BlockACKOnOff, getFieldEditorParent());
 		
 		FloatFieldEditor wifiFractionFrameDl = new FloatFieldEditor(PreferenceConstants.WIFI_FRACTION_FRAME_DL, Messages.PreferencePage_FractionFrameDl, 
 				getFieldEditorParent());

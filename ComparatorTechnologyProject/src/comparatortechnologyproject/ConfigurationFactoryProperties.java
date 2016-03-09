@@ -59,7 +59,7 @@ public class ConfigurationFactoryProperties {
 			
 		}else if (event.getProperty().equals(PreferenceConstants.BLOCK_ACK_ON_OFF)){
 			String blockACKOnOff = event.getNewValue().toString();
-			configurationProperties.setBlockACKOnOff(Float.parseFloat(blockACKOnOff));
+			configurationProperties.setBlockACKOnOff(WifiCapacity.getBlockAckValue(blockACKOnOff));
 			configurationProperties.setBlockACKOnOffChange(true);
 			
 		}else if (event.getProperty().equals(PreferenceConstants.NUM_PACKAGES)){
@@ -97,6 +97,20 @@ public class ConfigurationFactoryProperties {
 		}else if (((event.getProperty().equals(PreferenceConstants.MIMO_WIFI)) ||
 				(event.getProperty().equals(PreferenceConstants.SENSIBILITY_WIFI)))){
 			configurationProperties.setMimoOrSensibilityWifiChange(true);
+			
+		}else if (event.getProperty().equals(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_DL)){
+			String fractionFrameDl = event.getNewValue().toString();
+			if (Auxiliary.isNumber(fractionFrameDl)){
+				configurationProperties.setWifiTdmaFractionFrameDl(Float.parseFloat(fractionFrameDl));
+				configurationProperties.setWifiTdmaFractionFrameDlChange(true);
+			}
+			
+		}else if (event.getProperty().equals(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_UL)){
+			String fractionFrameUl = event.getNewValue().toString();
+			if (Auxiliary.isNumber(fractionFrameUl)){
+				configurationProperties.setWifiTdmaFractionFrameUl(Float.parseFloat(fractionFrameUl));
+				configurationProperties.setWifiTdmaFractionFrameUlChange(true);
+			}
 		}
 		return configurationProperties;
 	}

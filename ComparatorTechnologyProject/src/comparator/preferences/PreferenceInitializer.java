@@ -34,11 +34,15 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer{
 		
 		//Capacidad Wifi
 		store.setDefault(PreferenceConstants.COMBO_SIFS_RIFS, "2");
-		store.setDefault(PreferenceConstants.BLOCK_ACK_ON_OFF, 1);
+		store.setDefault(PreferenceConstants.BLOCK_ACK_ON_OFF, true);
 		store.setDefault(PreferenceConstants.NUM_PACKAGES, 42);
 		store.setDefault(PreferenceConstants.PACKAGES_SIZE, 12000);
 		store.setDefault(PreferenceConstants.WIFI_FRACTION_FRAME_DL, "0.5");
 		store.setDefault(PreferenceConstants.WIFI_FRACTION_FRAME_UL, "0.5");
+		
+		//Capacidad Wifi Tdma
+		store.setDefault(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_DL, "0.5");
+		store.setDefault(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_UL, "0.5");
 	}
 
 }

@@ -45,7 +45,7 @@ public class WifiCapacity {
 	private float DIFS_TIME;
 	private float E_P_SIZE;
 	private float R_BASIC;
-	private float BLOCK_ACK_ON;
+	private static float BLOCK_ACK_ON;
 	private float ACK_TIME;
 	private float ACK_BITS;
 	private float RTS_TIME;
@@ -98,7 +98,7 @@ public class WifiCapacity {
 		this.DIFS_TIME = SLOT_TIME * 2 + SIFS_RIFS_TIME;
 		this.E_P_SIZE = (PACKAGES * MIN_MAIN_WINDOW) / (MIN_MAIN_WINDOW - 1);
 		this.R_BASIC = (float) 6.5;
-		this.BLOCK_ACK_ON = Float.valueOf(block_ack_on_off);
+		WifiCapacity.BLOCK_ACK_ON = getBlockAckValue(block_ack_on_off);
 		this.NUM_PACKAGES = Float.valueOf(num_packages);
 		this.BAR_BITS = 192;
 		this.BACK_BITS = 1216;
@@ -356,10 +356,14 @@ public class WifiCapacity {
 	}
 	
 	public void setBlockAck(float value){
-		this.BLOCK_ACK_ON = value;
+		WifiCapacity.BLOCK_ACK_ON = value;
 	}
 	
-	public float getBlockAckValue(){
+	public static float getBlockAckValue(String blockACKOnOff){
+		BLOCK_ACK_ON = 0;
+		if (Boolean.parseBoolean(blockACKOnOff)){
+			BLOCK_ACK_ON = 1;
+		}
 		return BLOCK_ACK_ON;
 	}
 	
@@ -402,5 +406,7 @@ public class WifiCapacity {
 	public float getUlWifiCapacity(){
 		return ul_totalWifiCapacity * 1000;
 	}
+
+
 	
 }

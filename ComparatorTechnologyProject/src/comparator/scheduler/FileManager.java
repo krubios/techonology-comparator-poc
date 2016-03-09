@@ -1,11 +1,14 @@
 package comparator.scheduler;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
+
+import comparator.actions.OpenFileAction;
 
 
 /**La clase FileManager se encarga de leer y escribir los ficheros de
@@ -42,14 +45,14 @@ public class FileManager {
         // Indicara el identificador del nodo en el orden en el que hayn sido defindos
         int id = 0;
         // Creamos los objetos necesarios para poder leer del fichero
-        FileReader archivo = new FileReader(path);
-        BufferedReader entrada = new BufferedReader(archivo);
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
         while (linea != null) {
             // Buscamos la linea "Active units information",
             // que nos indicara el comienzo del listado de nodos
-            if (linea.compareTo(Messages.ActiveUnitsInformation) == 0) {
+            if (linea.compareTo(Messages.ActiveUnitsInformation) == 0 ||
+            		linea.compareTo(Messages.ActivarInformacionUnidades) == 0) {
                 // nos saltamos la linea de blanco que hay antes del listado de nodos
                 linea = skipLine(4, entrada);
                 // Recorremos el listado de nodos hasta la linea "---------------------------------------------------------------------------"
@@ -132,8 +135,7 @@ public class FileManager {
         Vector<Subscriber> subscriberList = importSubscribers(path);
 
         // Creamos los objetos necesarios para poder leer del fichero
-        FileReader archivo = new FileReader(path);
-        BufferedReader entrada = new BufferedReader(archivo);
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
         // Almacenaremos hasta dos lineas anteriores a la actual
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
@@ -143,7 +145,7 @@ public class FileManager {
 
                 foundNet = true;
                 linea = skipLine(2, entrada);
-                if (linea.indexOf("Hz to") != -1) {
+                if (linea.indexOf("Hz to") != -1 || linea.indexOf("Hz a") != -1) {
 
                     // Comprobamos que los enlaces están definidos como nosotros esperamos
                     try {
@@ -151,14 +153,14 @@ public class FileManager {
                         linea = skipLine(7, entrada);
                         // En la linea en la que nos encontramos buecamos el simbolo # y la palabra Role
                         int posicion_aux = linea.indexOf(Messages.Pad);
-                        int posicion_Role = linea.indexOf(Messages.Role);
+                        int posicion_Role = (linea.indexOf(Messages.Role)!=-1)?linea.indexOf(Messages.Role): linea.indexOf(Messages.Rol);
                         // Si a las dos posiciones obtenidas anteriormente le restamos 3 (los caracteres desde la posicion del asterisco hasta el primer numero)
                         // Y lo dividimos entre tres (cada numero consta de dos cifras mas el espacio entre numeros)
                         // Obtenemos el numero de nodos del enlace
                         int num_users = ((posicion_Role - posicion_aux - 3) / 3);
                         // Almacenamos las posiciones donde estan las palabras System y Antenna que nos servirán para obetener el nombre del equipo
-                        int posicion_System = linea.indexOf(Messages.System);
-                        int posicion_Antenna = linea.indexOf(Messages.Antenna);
+                        int posicion_System = (linea.indexOf(Messages.System) != -1)?linea.indexOf(Messages.System): linea.indexOf(Messages.Sistema);
+                        int posicion_Antenna = (linea.indexOf(Messages.Antenna) != -1)?linea.indexOf(Messages.Antenna): linea.indexOf(Messages.Antena);
                         // En este array guardaremos las potencias que cada slave recibe del master, en la posicion 0 del primer slave, y asi sucesivamente
                         potencias_slave = new int[num_users - 1];
                         // En este array guardaremos las potencias que el master recibe de cada slave
@@ -182,7 +184,8 @@ public class FileManager {
                             String equipo_aux = linea.substring(posicion_System, posicion_Antenna).concat("    ");
                             String nombre_equipo = equipo_aux.substring(0, equipo_aux.indexOf("    "));
                             // Buscamos si ese nodo es el nodo Master....
-                            if (linea.indexOf(Messages.Node) != -1 || linea.indexOf(Messages.Master) != -1) {
+                            int node = (linea.indexOf(Messages.Node)!= -1)? linea.indexOf(Messages.Node):linea.indexOf(Messages.Nodo);
+                            if ( node != -1 || linea.indexOf(Messages.Master) != -1) {
                                 // Cogemos la linea de la matriz de potencias desde despues del numero de linea de la matriz hasta la palabra que encontramos la palabra Master
                                 String linea_potencias = linea.substring(posicion_aux + 2, posicion_Role);
                                 // Encontramos el comienzo de la primera potencia
@@ -239,6 +242,7 @@ public class FileManager {
                             linea = entrada.readLine();
                         }
                     } catch (Exception e) {
+                    	Auxiliary.showErrorMessage(OpenFileAction.getShell(), "Error al leer los usuarios de radiomobile");
                         System.out.println("Error al leer los usuarios de radiomobile");
 
                     }
@@ -312,25 +316,30 @@ public class FileManager {
         //Equipo definido como BS
         Equipo baseDevice = searchDevice(equipos_enlace[0]);
         baseStation = Auxiliary.searchSubscriber(nodos_enlace[0], subscriberList);
-        //Umbral de la bS
-        double baseThreshold = baseDevice.getRx_thr();
+        if (baseDevice != null){
+        	//Umbral de la bS
+        	double baseThreshold = baseDevice.getRx_thr();
         
-        //Recorre los arrays recopilando los datos de cada enlace e incorporandolos
-        //al vector de subscriptoras
-        for (int index = 0;index<leng; index++){
-            Subscriber subs = Auxiliary.searchSubscriber(nodos_enlace[index+1],subscriberList);
-            //Calcula la distancia a la BS
-            distance = getDistance(subs.getX(), subs.getY(), subs.getZ());
-            Equipo device = searchDevice(equipos_enlace[index+1]);
-            snr_ul=(float) (potencias_master[index] + baseThreshold - 50 - noisePower);
-            snr_dl=(float) (potencias_slave[index] + device.getRx_thr() - 50 - noisePower);
-            
-            potencia_recibida_ul = (float) (potencias_master[index] + baseThreshold - 50);
-            potencia_recibida_dl = (float) (potencias_slave[index] + device.getRx_thr() -50);
-            
-            //Inserta el nombre las SNR y la distancia.
-            subs.modify(nodos_enlace[index+1], distance, snr_ul, snr_dl, potencia_recibida_ul, potencia_recibida_dl);
-            subscribers.add(subs);
+	        //Recorre los arrays recopilando los datos de cada enlace e incorporandolos
+	        //al vector de subscriptoras
+	        for (int index = 0;index<leng; index++){
+	            Subscriber subs = Auxiliary.searchSubscriber(nodos_enlace[index+1],subscriberList);
+	            //Calcula la distancia a la BS
+	            distance = getDistance(subs.getX(), subs.getY(), subs.getZ());
+	            Equipo device = searchDevice(equipos_enlace[index+1]);
+	            snr_ul=(float) (potencias_master[index] + baseThreshold - 50 - noisePower);
+	            snr_dl=(float) (potencias_slave[index] + device.getRx_thr() - 50 - noisePower);
+	            
+	            potencia_recibida_ul = (float) (potencias_master[index] + baseThreshold - 50);
+	            potencia_recibida_dl = (float) (potencias_slave[index] + device.getRx_thr() -50);
+	            
+	            //Inserta el nombre las SNR y la distancia.
+	            subs.modify(nodos_enlace[index+1], distance, snr_ul, snr_dl, potencia_recibida_ul, potencia_recibida_dl);
+	            subscribers.add(subs);
+	        }
+	        
+        }else{
+        	throw new RuntimeException("No se encuentra una estación base");
         }
 
         return subscribers;
@@ -352,6 +361,7 @@ public class FileManager {
                 return current;
             }
         }
+        
         return null;
     }
 
@@ -388,36 +398,36 @@ public class FileManager {
         boolean leidos = false;
         equipos = new Vector<Equipo>();
         // Creamos los objetos necesarios para poder leer del fichero
-        FileReader archivo = new FileReader(path);
-        BufferedReader entrada = new BufferedReader(archivo);
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
         while (linea != null) {
             // La linea "Systems" nos indicará el comienzo de la definición de equipos
-            if (linea.compareTo(Messages.Systems) == 0) {
+            if (linea.compareTo(Messages.Systems) == 0 || linea.compareTo(Messages.Sistemas) == 0) {
                 // Nos situamos en la linea que define al primer equipo
-                linea = skipLine(4, entrada);
+                linea = (linea.compareTo(Messages.Systems) == 0)?skipLine(4, entrada):skipLine(6, entrada);
                 // la linea "---------------------------------------------------------------------------" indica el final de la definicion de equipos
                 while (linea.compareTo("---------------------------------------------------------------------------") != 0) {
                     Equipo equipo = new Equipo();
                     // Si el equipo está mal definido capturamos la excepción y lanzamos un mensaje
                     try {
                         // Vamos asignando para cada equipo el valor para cada una de sus variables
-                        String nombre = linea.substring(0, 20);
+                        String nombre = Auxiliary.isNumberWithErrorMessage(linea.substring(0, 18)).trim();
                         nombre = nombre.concat("    ");
                         equipo.addNombre(nombre);
-                        String pwr_tx = linea.substring(20, 30);
+                        String pwr_tx = (linea.substring(18, 30)).trim();
                         equipo.addPwrTx(pwr_tx.replace(',', '.'));
-                        String loss = linea.substring(30, 36);
+                        String loss = linea.substring(30, 36).trim();
                         equipo.addLoss(loss.replace(',', '.'));
-                        String rx_thr = linea.substring(46, 56);
+                        String rx_thr = linea.substring(46, 56).trim();
                         equipo.addRxThr(rx_thr.replace(',', '.'));
-                        String ant_g = linea.substring(56, 64);
+                        String ant_g = linea.substring(56, 64).trim();
                         // Cambiamos los puntos por comas
                         equipo.addAntG(ant_g.replace(',', '.'));
                         // Introducimos el nodo en el vector
                         equipos.addElement(equipo);
                     } catch (Exception e) {
+                    	Auxiliary.showErrorMessage(OpenFileAction.getShell(),"El equipo " + equipo.getNombre() + " no está bien definido y no será tenido en cuenta.");
                         System.err.println("El equipo " + equipo.getNombre() + " no está bien definido y no será tenido en cuenta.");
                     }
                     linea = entrada.readLine();
@@ -425,6 +435,7 @@ public class FileManager {
                 // si ya hemos leido los equipos, cambiamos el valor de leido
                 leidos = true;
             }
+            
             // Si aun no hemos leido los equipos, seguimos leyendo
             if (leidos == false) {
                 linea = entrada.readLine();
@@ -438,7 +449,7 @@ public class FileManager {
     }
 
 
-    /**
+	/**
      * Busca los nombres de las redes definidas en un fichero de
      * RadioMobile
      * @param path ruta al fichero de RadioMobile
@@ -451,14 +462,14 @@ public class FileManager {
         ArrayList<String> netList = new ArrayList<String>();
 
         // Creamos los objetos necesarios para poder leer del fichero
-        FileReader archivo = new FileReader(path);
-        BufferedReader entrada = new BufferedReader(archivo);
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
         while (linea != null) {
             // Buscamos la linea "Active nets information",
             // que nos indicara el comienzo del listado de nodos
-            if (linea.compareTo(Messages.ActiveNetsInformation) == 0) {
+            if (linea.compareTo(Messages.ActiveNetsInformation) == 0 || 
+            		linea.compareTo(Messages.ActivarInformacionRedes) == 0) {
                 // salta hasta la linea donde se define la red
                 linea = skipLine(3, entrada);
                 //Almacena el nombre de la red en el vector quitándole
@@ -466,7 +477,7 @@ public class FileManager {
                 
                 netList.add(linea.trim());
                 linea = entrada.readLine();
-            } else if (linea.contains(Messages.Quality)) {
+            } else if (linea.contains(Messages.Quality) || linea.contains(Messages.Calidad)) {
                 //Dos lineas despues de Quality o hay una nueva red o se acaba el fichero
                 linea = skipLine(3, entrada);
                 if (linea != null) {

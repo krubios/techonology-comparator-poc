@@ -50,15 +50,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         preferenceAction = ActionFactory.PREFERENCES.create(window);
         register(preferenceAction);
         
-        openFileAction = new OpenFileAction(window, "Open File");
+        openFileAction = new OpenFileAction(window, "Abrir Archivo");
         register(openFileAction);
     }
     
     protected void fillMenuBar(IMenuManager menuBar) {
     	
-        MenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
-        MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
-        MenuManager toolMenu = new MenuManager("&Configuration", IWorkbenchActionConstants.M_WINDOW);
+        MenuManager fileMenu = new MenuManager("&Archivo", IWorkbenchActionConstants.M_FILE);
+        MenuManager helpMenu = new MenuManager("&Ayuda", IWorkbenchActionConstants.M_HELP);
+        MenuManager toolMenu = new MenuManager("&Configuración", IWorkbenchActionConstants.M_WINDOW);
         
         menuBar.add(fileMenu);
         // Add a group marker indicating where action set menus will appear.

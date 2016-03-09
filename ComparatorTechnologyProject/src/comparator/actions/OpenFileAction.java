@@ -17,6 +17,7 @@ public class OpenFileAction extends Action {
 	private final IWorkbenchWindow window;
 	// Lista de redes definidas en el fichero de RadioMobile
 	private String[] netList = new String[0];
+	private static Shell shell;
 	
 
 	public OpenFileAction(IWorkbenchWindow window, String label) {
@@ -29,9 +30,7 @@ public class OpenFileAction extends Action {
 	}
 
 	public void run() {
-
-		
-		Shell shell = window.getShell();
+		shell = window.getShell();
 		FileDialog fileDialog = new FileDialog(shell);
 		String firstFile = fileDialog.open();
 
@@ -51,6 +50,7 @@ public class OpenFileAction extends Action {
 		if (netList.length == 0) {
 			Auxiliary.showErrorMessage(shell,
 					Messages.ShowErrorToreadNetMessages);
+			
 
 		} else {
 
@@ -81,5 +81,9 @@ public class OpenFileAction extends Action {
 				navigationView.getViewer().setInput(navigationView.createDummyModel());
 			}
 		}
+	}
+	
+	public static Shell getShell(){
+		return shell;
 	}
 }

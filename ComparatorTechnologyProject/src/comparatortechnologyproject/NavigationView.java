@@ -107,17 +107,24 @@ public class NavigationView extends ViewPart {
 			_selectedSubscriber = ((TreeObject)sel.getFirstElement()).getSubscriber();
 			for (IViewReference view : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences()){
 				if (view.getView(true) instanceof InformationView){
+					
 					Subscriber baseStation = scheduler.getBaseStation();
 					InformationView informationView = (InformationView) view.getView(true);
+					
 					if ((!_selectedSubscriber.getName().equals(DEFAULT_NODE_NAME)) && (baseStation != null && 
 							!_selectedSubscriber.getName().equals(scheduler.getBaseStation().getName()))){
 						
+						InformationView.wifiTdmaCapacity.wifiTdmaScheduler(scheduler);
+						informationView.showWifiTdmaCapacityInformation();
+						
 						InformationView.configurationProperties.showInformationSuscriber(informationView.tableViewer, 
-								InformationView.grandChildWimaxDL, InformationView.grandChildWimaxUL, 
-								InformationView.grandChildWifiDL, InformationView.grandChildWifiUL);
+								InformationView.grandChildWimaxDl, InformationView.grandChildWimaxUl, 
+								InformationView.grandChildWifiDl, InformationView.grandChildWifiUl, InformationView.grandChildWifiTdmaDl,
+								InformationView.grandChildWifiTdmaUl);
 						
 						InformationView.wimaxCapacity.wimaxScheduler(scheduler);
 						InformationView.wifiCapacity.wifiScheduler(scheduler);
+						
 						informationView.showWimaxCapacityInformation();
 						informationView.showWifiCapacityInformation();
 						

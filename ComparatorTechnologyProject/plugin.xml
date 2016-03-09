@@ -62,54 +62,40 @@
    </extension>
    
    <extension
-         id="product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="ComparatorTechnologyProject.application">
-         <property
-               name="aboutText"
-               value="Comparador de Tecnologías Wimax y Wifi &#x0A;Version 1.0.0&#x0A;by Karla Rubio Sopan&#x0A;&#x0A;For more information on Eclipse and the&#x0A;Rich Client Platform visit:&#x0A;http://www.eclipse.org">
-         </property>
-         
-         <property
-               name="windowImages"
-               value="icons/icon_tool.jpg">
-         </property>
-         <property
-               name="aboutImage"
-               value="icons/icon_tool.jpg">
-         </property>
-      </product>
-   </extension>
-   
-   <extension
          point="org.eclipse.ui.preferencePages">
   		<page
             category="org.eclipse.ui.preferencePages.Workbench"
             class="comparator.preferences.wifi.WifiPreferencePage"
             id="comparator.preferences.wifi.WifiPreferencePage"
-            name="Wifi">
+            name="Sistema WiFi">
   		</page>
   		
   		<page
             category="org.eclipse.ui.preferencePages.Workbench"
             class="comparator.preferences.wimax.WimaxPreferencePage"
             id="comparator.preferences.wimax.WimaxPreferencePage"
-            name="Wimax">
+            name="Sistema WIMAX">
   		</page>
   		
   		<page
             category="org.eclipse.ui.preferencePages.Workbench"
             class="comparator.preferences.wimax.WimaxCapacityPreferencePage"
             id="comparator.preferences.wimax.WimaxCapacityPreferencePage"
-            name="Capacidad Wimax">
+            name="Capacidad WIMAX">
   		</page>
   		
   		<page
             category="org.eclipse.ui.preferencePages.Workbench"
             class="comparator.preferences.wifi.WifiCapacityPreferencePage"
             id="comparator.preferences.wifi.WifiCapacityPreferencePage"
-            name="Capacidad Wifi">
+            name="Capacidad WiFi">
+  		</page>
+  		
+  		<page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="comparator.preferences.wifi.tdma.WifiTdmaCapacityPreferencePage"
+            id="comparator.preferences.wifi.tdma.WifiTdmaCapacityPreferencePage"
+            name="Capacidad WiFi TDMA">
   		</page>
    </extension>
    
@@ -120,7 +106,39 @@
 	 </initializer>    
    </extension>
    
-   <!--extension 
-   		point="org.eclipse.ui.popupMenus"> 
-	</extension-->
+   <extension
+         id="TechnologyCompareID"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="ComparatorTechnologyProject.application"
+            name="TechnologyCompare">
+         <property
+               name="appName"
+               value="TechnologyCompare">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/window16Trans.png,icons/window32Trans.png">
+         </property>
+         <property
+               name="aboutText"
+               value="My Product based on Eclipse Platform &#x0A;Version 1.0.0 &#x0A;&#x0A;Welcome to my product based on Eclipse Product Configuration. &#x0A;A RCP Technology Compare of  WIMAX, WiFi and WiFi-TDMA.&#x0A;&#x0A;This product is developed by Karla Rubio Sopan.&#x0A;For more information on Eclipse and the Rich Client Platform visit:&#x0A;http://www.eclipse.org"/>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,252,445,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="5,275,445,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
 </plugin>

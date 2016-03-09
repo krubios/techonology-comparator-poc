@@ -9,6 +9,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+import comparator.actions.OpenFileAction;
 import comparator.preferences.Messages;
 import comparator.preferences.wifi.WifiPreferenceData;
 
@@ -133,6 +134,31 @@ public final class Auxiliary {
         }
 
         return true;
+    }
+    
+    
+    
+    public static String isNumberWithErrorMessage(String data) {
+        //Comprueba que el campo no está vacio
+        if (data.equals("")) {
+        	String message = "El nombre del sistema no existe";
+            showErrorMessage(OpenFileAction.getShell(),message);
+            throw new RuntimeException();
+        }
+        
+        String number = data.substring(data.length() -1);
+        for (int i = 0; i < number.length(); i++) {
+            char z = number.charAt(i);
+            if (z < '0' || z > '9') {
+                return data;
+            }else{
+            	String message = "El nombre del sistema es muy grande, el tamaño máximo permitido es de 19 caracteres";
+                showErrorMessage(OpenFileAction.getShell(),message);
+                throw new RuntimeException();
+            }
+        }
+
+        return data;
     }
     
     /** Abre una ventana con un mensaje de error
