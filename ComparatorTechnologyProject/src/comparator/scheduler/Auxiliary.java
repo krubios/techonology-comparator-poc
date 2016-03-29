@@ -173,6 +173,18 @@ public final class Auxiliary {
 		messageBox.open();
     }
     
+    /** Abre una ventana con un mensaje de información
+     * @param shell 
+     * @param mensaje que se desea mostrar
+     */
+    public static void showInfoMessage(Shell shell,String message) {
+
+    	MessageBox messageBox = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
+		messageBox.setText(Messages.InformationMessage);
+		messageBox.setMessage(message);
+		messageBox.open();
+    }
+    
     public static String[][] getWifiElementsModulation() {
 		return new String[][]{
 				MCS_0, MCS_1,MCS_2,MCS_3,MCS_4,MCS_5,MCS_6,MCS_7 	

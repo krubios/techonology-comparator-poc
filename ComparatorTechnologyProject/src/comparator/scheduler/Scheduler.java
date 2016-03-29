@@ -132,8 +132,8 @@ public class Scheduler {
 					equipo.noiseFloor());
 			baseStation = input.getBaseStation();
 
-			// Calcula el numero de SSs
-			numSS = listSubscriberNodes.size();
+			// Calcula el numero de estaciones (se suma la estación base)
+			numSS = listSubscriberNodes.size() + 1;
 			// Obtiene una lista con todos los nodos
 		} catch (IOException ex) {
 			Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null,

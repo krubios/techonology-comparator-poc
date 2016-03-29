@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TreeItem;
 
+import comparator.actions.OpenFileAction;
 import comparator.preferences.wifi.WifiComboFieldEditor;
 import comparator.preferences.wifi.tdma.WifiTdmaCapacity;
 import comparator.preferences.wimax.WimaxComboFieldEditor;
@@ -291,6 +292,9 @@ public class ConfigurationProperties {
 			}
 		}
 		String higthModulation = Auxiliary.getWimaxHightModulation(modulation);
+		if (higthModulation.equals("")){
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+		}
 		setHightWimaxModulationUL(higthModulation);
 		return higthModulation;
 	}
@@ -311,6 +315,9 @@ public class ConfigurationProperties {
 		}
 
 		String higthModulation = Auxiliary.getWimaxHightModulation(modulation);
+		if (higthModulation.equals("")){
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el downlink es muy pequeña. No se encuentra ninguna modulación disponible");
+		}
 		setHightWimaxModulationDL(higthModulation);
 		return higthModulation;
 	}
@@ -338,6 +345,9 @@ public class ConfigurationProperties {
 		}
 		
 		String higthModulation = Auxiliary.getWifiHightModulation(modulation);
+		if (higthModulation.equals("")){
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+		}
 		setHightWifiModulationDL(higthModulation);
 		
 		return higthModulation;
@@ -365,6 +375,9 @@ public class ConfigurationProperties {
 			}
 		}
 		String higthModulation = Auxiliary.getWifiHightModulation(modulation);
+		if (higthModulation.equals("")){
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+		}
 		setHightWifiModulationUL(higthModulation);
 		
 		return higthModulation;

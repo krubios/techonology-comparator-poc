@@ -21,6 +21,7 @@ http://www.eclipse.org
    </configIni>
 
    <launcherArgs>
+      <vmArgs>-Dfile.encoding=UTF8</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

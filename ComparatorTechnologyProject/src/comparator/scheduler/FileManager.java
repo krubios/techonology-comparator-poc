@@ -427,8 +427,8 @@ public class FileManager {
                         // Introducimos el nodo en el vector
                         equipos.addElement(equipo);
                     } catch (Exception e) {
-                    	Auxiliary.showErrorMessage(OpenFileAction.getShell(),"El equipo " + equipo.getNombre() + " no está bien definido y no será tenido en cuenta.");
-                        System.err.println("El equipo " + equipo.getNombre() + " no está bien definido y no será tenido en cuenta.");
+                    	Auxiliary.showInfoMessage(OpenFileAction.getShell(),"El equipo  \"" + equipo.getNombre() + "\"  definido en el fichero no es correcto y no será tenido en cuenta.");
+                        System.err.println("El equipo " + equipo.getNombre() + " no es correcto y no será tenido en cuenta.");
                     }
                     linea = entrada.readLine();
                 }

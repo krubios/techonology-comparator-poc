@@ -194,15 +194,15 @@ public class InformationView extends ViewPart {
 		parent.setLayout(new GridLayout(2, true));
 		Tree wimaxTree = new Tree(parent, SWT.MULTI | SWT.FULL_SELECTION);
 		createColumns(wimaxTree);
-		fillTree(wimaxTree, "Wimax");
+		fillTree(wimaxTree, "WiMAX");
 		
 		Tree wifiTree = new Tree(parent, SWT.MULTI | SWT.FULL_SELECTION);
 		createColumns(wifiTree);
-		fillTree(wifiTree, "Wifi");
+		fillTree(wifiTree, "WiFi");
 		
 		Tree wifiTdmaTree = new Tree(parent, SWT.MULTI | SWT.FULL_SELECTION);
 		createColumns(wifiTdmaTree);
-		fillTree(wifiTdmaTree, "NV2");
+		fillTree(wifiTdmaTree, "WiFi TDMA");
 	}
 
 	private void createColumns(Tree tree) {
@@ -232,7 +232,7 @@ public class InformationView extends ViewPart {
 		TreeItem childUl = new TreeItem(item, SWT.NONE);
 		childUl.setText("UL");
 
-		if (name.equals("Wimax")) {
+		if (name.equals("WiMAX")) {
 			grandChildWimaxDl = new TreeItem(childDl, SWT.NONE);
 			grandChildWimaxDl.setText("");
 			grandChildWimaxDl.setText(1, "");
@@ -241,7 +241,7 @@ public class InformationView extends ViewPart {
 			grandChildWimaxUl.setText("");
 			grandChildWimaxUl.setText(1, "");
 
-		} else if (name.equals("Wifi")) {
+		} else if (name.equals("WiFi")) {
 			grandChildWifiDl = new TreeItem(childDl, SWT.NONE);
 			grandChildWifiDl.setText("");
 			grandChildWifiDl.setText(1,"");
@@ -250,7 +250,7 @@ public class InformationView extends ViewPart {
 			grandChildWifiUl.setText("");
 			grandChildWifiUl.setText(1, "");
 			
-		} else if (name.equals("NV2")){
+		} else if (name.equals("WiFi TDMA")){
 			grandChildWifiTdmaDl = new TreeItem(childDl, SWT.NONE);
 			grandChildWifiTdmaDl.setText("");
 			grandChildWifiTdmaDl.setText(1,"");

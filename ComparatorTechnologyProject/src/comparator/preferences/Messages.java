@@ -16,6 +16,7 @@ public class Messages extends NLS{
 	public static String PreferencePage_CyclixPrefix;
 	public static String PreferencePage_FrameDuration;
 	public static String ErrorMessage;
+	public static String InformationMessage;
 	public static String ULDirection;
 	
 	public static String PreferencePage_Sifs_Rifs;

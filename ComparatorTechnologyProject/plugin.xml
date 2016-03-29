@@ -74,14 +74,14 @@
             category="org.eclipse.ui.preferencePages.Workbench"
             class="comparator.preferences.wimax.WimaxPreferencePage"
             id="comparator.preferences.wimax.WimaxPreferencePage"
-            name="Sistema WIMAX">
+            name="Sistema WiMAX">
   		</page>
   		
   		<page
             category="org.eclipse.ui.preferencePages.Workbench"
             class="comparator.preferences.wimax.WimaxCapacityPreferencePage"
             id="comparator.preferences.wimax.WimaxCapacityPreferencePage"
-            name="Capacidad WIMAX">
+            name="Capacidad WiMAX">
   		</page>
   		
   		<page

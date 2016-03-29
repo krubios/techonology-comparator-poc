@@ -22,7 +22,7 @@ public class WifiCapacity {
 	private static Map<Integer, String> mapTauValue;
 	static {
 		mapTauValue = new HashMap<Integer, String>();
-		mapTauValue.put(2, "0.109051");
+		mapTauValue.put(2, "0.10905100");
 		mapTauValue.put(3, "0.09620301");
 		mapTauValue.put(4, "0.08591101");
 		mapTauValue.put(5, "0.07766120");
@@ -186,6 +186,7 @@ public class WifiCapacity {
 	 */
 	public float getSlotTime(double distance) {
 
+//		double dist = Math.round(distance);
 		float slotTime = 0;
 		if (distance == 0.0) {
 			slotTime = 9;
@@ -207,11 +208,11 @@ public class WifiCapacity {
 	}
 
 	public float getBasicSuccessTransmission() {
-		return ((slot_time_with_distance + (PLCP_TIME
+		return slot_time_with_distance + (PLCP_TIME
 				+ ((PACKAGES + 224) / R_P) + SIFS_RIFS_TIME + ACK_TIME
 				+ BACK_EXT_TIME + DIFS_TIME + (slot_time_with_distance - SLOT_TIME)
-				* (1 - BLOCK_ACK_ON))
-				* MIN_MAIN_WINDOW) / MIN_MAIN_WINDOW);
+				* (1 + BLOCK_ACK_ON))
+				* MIN_MAIN_WINDOW / (MIN_MAIN_WINDOW -1);
 	}
 
 	public float getBasicCollisionTransmission() {
@@ -222,10 +223,10 @@ public class WifiCapacity {
 
 	public float getRtsSuccessTransmission() {
 
-		return (slot_time_with_distance + (RTS_TIME + CTS_TIME + PLCP_TIME
+		return slot_time_with_distance + (RTS_TIME + CTS_TIME + PLCP_TIME
 				+ ((PACKAGES + 224) / R_P) + 3 * SIFS_RIFS_TIME
 				+ (1 - BLOCK_ACK_ON) * ACK_TIME + BACK_EXT_TIME + DIFS_TIME + 2 * (slot_time_with_distance - SLOT_TIME))
-				* MIN_MAIN_WINDOW)
+				* MIN_MAIN_WINDOW
 				/ (MIN_MAIN_WINDOW - 1);
 	}
 
@@ -236,17 +237,17 @@ public class WifiCapacity {
 	}
 
 	public float getBasicSaturation() {
-		return (success_probability * ((E_P_SIZE + BLOCK_ACK_ON * PACKAGES
+		return success_probability * (E_P_SIZE + BLOCK_ACK_ON * PACKAGES
 				* (NUM_PACKAGES - 1)) / (((1 - busy_probability) * slot_time_with_distance)
-				+ (success_probability * ts_basic) + (busy_probability - success_probability)
-				* tc_basic)));
+				+ (success_probability * ts_basic) + ((busy_probability - success_probability)
+				* tc_basic));
 	}
 
 	public float getRtsSaturation() {
-		return (success_probability * ((E_P_SIZE + BLOCK_ACK_ON * PACKAGES
+		return success_probability * (E_P_SIZE + BLOCK_ACK_ON * PACKAGES
 				* (NUM_PACKAGES - 1)) / (((1 - busy_probability) * slot_time_with_distance)
-				+ (success_probability * ts_rts) + (busy_probability - success_probability)
-				* tc_rts)));
+				+ (success_probability * ts_rts) + ((busy_probability - success_probability)
+				* tc_rts));
 	}
 	
 	public float getRtsThroughputSaturation(String maxModulation) {
@@ -254,14 +255,14 @@ public class WifiCapacity {
 		float bitRate = getBitRate(maxModulation);
 		float backAckExtTimeModulation = getBackAckExtTimeModulation(bitRate);
 		
-		float numValue = success_probability * (E_P_SIZE + BLOCK_ACK_ON * E_P_SIZE * (NUM_PACKAGES -1));
+		float numValue = (success_probability * (E_P_SIZE + BLOCK_ACK_ON * E_P_SIZE * (NUM_PACKAGES -1)));
 		float firstElementDenom = ((1- busy_probability) * slot_time_with_distance);
 		
-		float secondElementDenom = success_probability * (slot_time_with_distance + (RTS_TIME + + CTS_TIME + PLCP_TIME + ((PACKAGES + 224)/ bitRate) +
+		float secondElementDenom = (success_probability * (slot_time_with_distance + (RTS_TIME +  CTS_TIME + PLCP_TIME + (PACKAGES + 224)/ bitRate +
 				3 * SIFS_RIFS_TIME + (1 - BLOCK_ACK_ON) * ACK_TIME + backAckExtTimeModulation + DIFS_TIME + 2 * (slot_time_with_distance - SLOT_TIME)) * 
-				MIN_MAIN_WINDOW/(MIN_MAIN_WINDOW - 1));
+				MIN_MAIN_WINDOW/(MIN_MAIN_WINDOW - 1)));
 		
-		float thridElementDenom = busy_probability - success_probability;
+		float thridElementDenom = (busy_probability - success_probability);
 		
 		float fourthElementDenom = (slot_time_with_distance + (RTS_TIME + SIFS_RIFS_TIME + CTS_TIME +  DIFS_TIME +
 					(slot_time_with_distance - SLOT_TIME) / 2));
@@ -291,15 +292,15 @@ public class WifiCapacity {
 			float bitRate = getBitRate(maxModulation);
 			float backAckExtTimeModulation = getBackAckExtTimeModulation(bitRate);
 			
-			float numValue = success_probability * (E_P_SIZE + BLOCK_ACK_ON * E_P_SIZE * (NUM_PACKAGES -1));
+			float numValue = (success_probability * (E_P_SIZE + BLOCK_ACK_ON * E_P_SIZE * (NUM_PACKAGES -1)));
 			float firstElementDenom = ((1- busy_probability) * slot_time_with_distance);
 			
-			float secondElementDenom = (success_probability * (slot_time_with_distance + (PLCP_TIME + ((PACKAGES + 224)/ bitRate) +
-					SIFS_RIFS_TIME + ACK_TIME + backAckExtTimeModulation + DIFS_TIME + (slot_time_with_distance - SLOT_TIME) * (1- BLOCK_ACK_ON)) *
+			float secondElementDenom = (success_probability * (slot_time_with_distance + (PLCP_TIME + (PACKAGES + 224)/ bitRate +
+					SIFS_RIFS_TIME + ACK_TIME + backAckExtTimeModulation + DIFS_TIME + (slot_time_with_distance - SLOT_TIME) * (1 + BLOCK_ACK_ON)) *
 					MIN_MAIN_WINDOW/(MIN_MAIN_WINDOW - 1)));
 			
-			float thridElementDenom = busy_probability - success_probability;
-			float fourthElementDenom = (slot_time_with_distance + (PLCP_TIME + ((PACKAGES + 224)/ bitRate) + SIFS_RIFS_TIME + ACK_TIME + DIFS_TIME +
+			float thridElementDenom = (busy_probability - success_probability);
+			float fourthElementDenom = (slot_time_with_distance + (PLCP_TIME + (PACKAGES + 224)/ bitRate + SIFS_RIFS_TIME + ACK_TIME + DIFS_TIME +
 						(slot_time_with_distance - SLOT_TIME) / 2));
 			
 			basic_saturation = numValue / (firstElementDenom + secondElementDenom + (thridElementDenom * fourthElementDenom));
@@ -331,7 +332,7 @@ public class WifiCapacity {
 	private float getBackAckExtTimeModulation(float bitRate) {
 		float value = 0;
 		if (bitRate != 0 ){
-			value = BLOCK_ACK_ON * ((NUM_PACKAGES - 1) * (PLCP_TIME + ((PACKAGES + 224)/bitRate) + SIFS_RIFS_TIME) +
+			value = BLOCK_ACK_ON * ((NUM_PACKAGES - 1) * (PLCP_TIME + (PACKAGES + 224)/bitRate + SIFS_RIFS_TIME) +
 					BAR_TIME + BACK_TIME + SIFS_RIFS_TIME);
 		}
 		return  value;
