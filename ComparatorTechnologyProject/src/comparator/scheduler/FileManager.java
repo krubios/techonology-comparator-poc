@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -45,7 +46,7 @@ public class FileManager {
         // Indicara el identificador del nodo en el orden en el que hayn sido defindos
         int id = 0;
         // Creamos los objetos necesarios para poder leer del fichero
-        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
         while (linea != null) {
@@ -135,7 +136,7 @@ public class FileManager {
         Vector<Subscriber> subscriberList = importSubscribers(path);
 
         // Creamos los objetos necesarios para poder leer del fichero
-        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
         // Almacenaremos hasta dos lineas anteriores a la actual
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
@@ -398,7 +399,7 @@ public class FileManager {
         boolean leidos = false;
         equipos = new Vector<Equipo>();
         // Creamos los objetos necesarios para poder leer del fichero
-        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
         while (linea != null) {
@@ -462,7 +463,8 @@ public class FileManager {
         ArrayList<String> netList = new ArrayList<String>();
 
         // Creamos los objetos necesarios para poder leer del fichero
-        BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
+        InputStreamReader isr = new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8);
+        BufferedReader entrada = new BufferedReader(isr);
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
         while (linea != null) {
