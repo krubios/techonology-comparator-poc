@@ -42,9 +42,12 @@ public class WifiTdmaCapacity {
 	public String wifiTdmaScheduler(Scheduler scheduler){
 		
 		String message = "Servicios Wifi Tdma creados";
+		// Calcula la distancia máxima
+		Auxiliary.setMaxDistance(scheduler.getSubscriberNodes());
 		
-		dl_totalWifiTdmaCapacity = getMaxThroughputDl(scheduler.getMaxSize());
-		ul_totalWifiTdmaCapacity = getMaxThroughputUl(scheduler.getMaxSize());
+		dl_totalWifiTdmaCapacity = getMaxThroughputDl(Auxiliary.getMaxDistance());
+		ul_totalWifiTdmaCapacity = getMaxThroughputUl(Auxiliary.getMaxDistance());
+		
 		return message;
 		
 	}
@@ -227,11 +230,11 @@ public class WifiTdmaCapacity {
 	}
 	
 	public float getDlWifiTdmaCapacity(){
-		return dl_totalWifiTdmaCapacity * 1000;
+		return dl_totalWifiTdmaCapacity;
 	}
 	
 	public float getUlWifiTdmaCapacity(){
-		return ul_totalWifiTdmaCapacity * 1000;
+		return ul_totalWifiTdmaCapacity;
 	}
 	
 	public String getMaxModulationDl(){

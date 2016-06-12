@@ -452,12 +452,16 @@ public class WimaxCapacity {
 		return FRACTION_FRAME_TIME_UL;
 	}
 	
+	/**
+	 * La capacidad viene en bps, lo pasamos a Mbps
+	 * @return
+	 */
 	public float getDlWimaxCapacity(){
-		return dl_totalWimaxCapacity / 1000;
+		return dl_totalWimaxCapacity / 1000000;
 	}
 	
 	public float getUlWimaxCapacity(){
-		return ul_totalWimaxCapacity /1000;
+		return ul_totalWimaxCapacity /1000000;
 	}
 
 }

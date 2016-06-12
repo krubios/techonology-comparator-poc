@@ -382,28 +382,28 @@ public class InformationView extends ViewPart {
 		grandChildWimaxDl.setText(
 				1,
 				Float.toString(wimaxCapacity
-						.getDlWimaxCapacity()) + " Kbps");
+						.getDlWimaxCapacity()) + " Mbps");
 		grandChildWimaxUl.setText(
 				1,
 				Float.toString(wimaxCapacity
-						.getUlWimaxCapacity()) + " Kbps");
+						.getUlWimaxCapacity()) + " Mbps");
 	}
 	
 	public void showWifiCapacityInformation() {
 		grandChildWifiDl.setText(
 				1,
 				Float.toString(wifiCapacity
-						.getDlWifiCapacity()) + " Kbps");
+						.getDlWifiCapacity()) + " Mbps");
 		grandChildWifiUl.setText(
 				1,
 				Float.toString(wifiCapacity
-						.getUlWifiCapacity()) + " Kbps");
+						.getUlWifiCapacity()) + " Mbps");
 	}
 	
 	
 	public void showWifiTdmaCapacityInformation(){
 		
-		grandChildWifiTdmaDl.setText(1, Float.toString(wifiTdmaCapacity.getDlWifiTdmaCapacity()) + "Kbps");
-		grandChildWifiTdmaUl.setText(1, Float.toString(wifiTdmaCapacity.getUlWifiTdmaCapacity()) + "Kbps");
+		grandChildWifiTdmaDl.setText(1, Float.toString(wifiTdmaCapacity.getDlWifiTdmaCapacity()) + "Mbps");
+		grandChildWifiTdmaUl.setText(1, Float.toString(wifiTdmaCapacity.getUlWifiTdmaCapacity()) + "Mbps");
 	}
 }

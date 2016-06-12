@@ -167,7 +167,7 @@ public class Scheduler {
 		return baseStation;
 	}
 	
-	public float getMaxSize(){
+	public float getMaxDIstanceSize(){
 		return max_distance;
 	}
 }

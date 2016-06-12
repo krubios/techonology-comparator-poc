@@ -147,7 +147,7 @@ public final class Auxiliary {
         }
         
         String number = data.substring(data.length() -1);
-        for (int i = 0; i < number.length(); i++) {
+        for (int i = 0; i < number.length();) {
             char z = number.charAt(i);
             if (z < '0' || z > '9') {
                 return data;
@@ -294,6 +294,7 @@ public final class Auxiliary {
 	public static void setMaxDistance(ArrayList<Subscriber> listSubscriberNodes) {
 		// Inicializa a 0 el valor de max_distance
 		// Recorre el vector de usuarios
+		max_distance = 0;
 		for (Iterator<Subscriber> it = listSubscriberNodes.iterator(); it
 				.hasNext();) {
 			Subscriber user = (Subscriber) it.next();

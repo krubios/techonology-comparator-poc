@@ -400,12 +400,16 @@ public class WifiCapacity {
 		this.FRACTION_FRAME_TIME_UL = value;
 	}
 	
+	/**
+	 * La capacidad ya viene en Mbps
+	 * @return
+	 */
 	public float getDlWifiCapacity(){
-		return dl_totalWifiCapacity * 1000;
+		return dl_totalWifiCapacity;
 	}
 	
 	public float getUlWifiCapacity(){
-		return ul_totalWifiCapacity * 1000;
+		return ul_totalWifiCapacity;
 	}
 
 
