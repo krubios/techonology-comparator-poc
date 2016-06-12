@@ -13,8 +13,8 @@ import comparator.actions.OpenFileAction;
 
 
 /**La clase FileManager se encarga de leer y escribir los ficheros de
- * entrada y salida. Algunos métodos de esta clase son versiones adapatadas
- * de los métodos de la clase Lectura.java implementada por Carlos Rey
+ * entrada y salida. Algunos mï¿½todos de esta clase son versiones adapatadas
+ * de los mï¿½todos de la clase Lectura.java implementada por Carlos Rey
  *
  * @author Ignacio Prieto
  * @author ignacio.p.e@gmail.com
@@ -26,7 +26,7 @@ public class FileManager {
 
     //Vector de equipos detectados en el fichero de RadioMobile
     private Vector<Equipo> equipos;
-    //Nodo que ejerce de estación base
+    //Nodo que ejerce de estaciï¿½n base
     private Subscriber baseStation = new Subscriber();
 
     /** Devuelve un vector con la informacion disponible de cada uno de los nodos definidos en el report de Radio Mobile.
@@ -60,12 +60,12 @@ public class FileManager {
                 // que nos indica el final del listado de nodos
                 while (linea.compareTo("---------------------------------------------------------------------------") != 0) {
                     Subscriber nodo = new Subscriber();
-                    // Si el nodo está mal definido, capturamos la excepcion que genere y lanzamos un mensaje
+                    // Si el nodo estï¿½ mal definido, capturamos la excepcion que genere y lanzamos un mensaje
                     try {
-                        // Comprobamos si está presente el caracter °. Ya que da problemas . Esto dependerá de la versión de la versión del compilador
+                        // Comprobamos si estï¿½ presente el caracter ï¿½. Ya que da problemas . Esto dependerï¿½ de la versiï¿½n de la versiï¿½n del compilador
                         char aux = linea.charAt(22);
-                        // Si está lo eliminamos
-                        if (linea.substring(22,23).equals("Â") && linea.substring(35,36).equals("Â")) {
+                        // Si estï¿½ lo eliminamos
+                        if (linea.substring(22,23).equals("Ã‚") && linea.substring(35,36).equals("Ã‚")) {
                             linea = linea.substring(0, 22).concat(linea.substring(24, 35)).concat(linea.substring(37, linea.length()));
                             
                         }else if(Character.getNumericValue(aux) == -1)
@@ -84,7 +84,7 @@ public class FileManager {
                         id = id + 1;
                     } catch (Exception e) {
                         System.out.println(e);
-                        System.err.println("ERROR: El nodo " + nodo.getName() + " no está bien definido.");
+                        System.err.println("ERROR: El nodo " + nodo.getName() + " no estÃ¡ bien definido.");
                     }
                     linea = entrada.readLine();
                 }
@@ -106,7 +106,7 @@ public class FileManager {
 
 
     /**
-     * Carga la información relativa a una red de un fichero de RadioMobile
+     * Carga la informaciï¿½n relativa a una red de un fichero de RadioMobile
      * @param path ruta al fichero de RadioMobile
      * @param netName red que se desea cargar
      * @param noisePower nivel de ruido
@@ -123,9 +123,9 @@ public class FileManager {
         int[] potencias_slave = null;// = new int[num_users - 1];
         // En este array guardaremos las potencias que el master recibe de cada slave
         int[] potencias_master = null;// = new int[num_users - 1];
-        // En este array guardaremos los nombres de los nodos del enlace, en la posicion 0 irá el master, y en las sucesivas los slaves
+        // En este array guardaremos los nombres de los nodos del enlace, en la posicion 0 irï¿½ el master, y en las sucesivas los slaves
         String[] nodos_enlace = null;// = new String[num_users];
-        // En este array guardaremos los nombres de los equipos de cada nodo, en la posicion 0 irá el del master, y en las sucesivas los slaves
+        // En este array guardaremos los nombres de los equipos de cada nodo, en la posicion 0 irï¿½ el del master, y en las sucesivas los slaves
         String[] equipos_enlace = null;// = new String[num_users];
         // Lee la lista de equipos del fichero de RadioMobile
         equipos = leerEquipos(path);
@@ -148,7 +148,7 @@ public class FileManager {
                 linea = skipLine(2, entrada);
                 if (linea.indexOf("Hz to") != -1 || linea.indexOf("Hz a") != -1) {
 
-                    // Comprobamos que los enlaces están definidos como nosotros esperamos
+                    // Comprobamos que los enlaces estï¿½n definidos como nosotros esperamos
                     try {
                         // Nos saltamos las lineas que no nos interesan hasta la definicion de los miembros del enlace
                         linea = skipLine(7, entrada);
@@ -159,16 +159,16 @@ public class FileManager {
                         // Y lo dividimos entre tres (cada numero consta de dos cifras mas el espacio entre numeros)
                         // Obtenemos el numero de nodos del enlace
                         int num_users = ((posicion_Role - posicion_aux - 3) / 3);
-                        // Almacenamos las posiciones donde estan las palabras System y Antenna que nos servirán para obetener el nombre del equipo
+                        // Almacenamos las posiciones donde estan las palabras System y Antenna que nos servirï¿½n para obetener el nombre del equipo
                         int posicion_System = (linea.indexOf(Messages.System) != -1)?linea.indexOf(Messages.System): linea.indexOf(Messages.Sistema);
                         int posicion_Antenna = (linea.indexOf(Messages.Antenna) != -1)?linea.indexOf(Messages.Antenna): linea.indexOf(Messages.Antena);
                         // En este array guardaremos las potencias que cada slave recibe del master, en la posicion 0 del primer slave, y asi sucesivamente
                         potencias_slave = new int[num_users - 1];
                         // En este array guardaremos las potencias que el master recibe de cada slave
                         potencias_master = new int[num_users - 1];
-                        // En este array guardaremos los nombres de los nodos del enlace, en la posicion 0 irá el master, y en las sucesivas los slaves
+                        // En este array guardaremos los nombres de los nodos del enlace, en la posicion 0 irï¿½ el master, y en las sucesivas los slaves
                         nodos_enlace = new String[num_users];
-                        // En este array guardaremos los nombres de los equipos de cada nodo, en la posicion 0 irá el del master, y en las sucesivas los slaves
+                        // En este array guardaremos los nombres de los equipos de cada nodo, en la posicion 0 irï¿½ el del master, y en las sucesivas los slaves
                         equipos_enlace = new String[num_users];
                         // Indica la posicion en el array de interfaces;
                         int puntero = 0;
@@ -193,7 +193,7 @@ public class FileManager {
                                 int inicio_potencias = findNumber(linea_potencias);
                                 // Asignamos cada potencia a una posicion del array
                                 for (int i = 0; i < potencias_master.length; i++) {
-                                    // Obtenemos la posicion inicio de la potencia saltándonos el espacio entre
+                                    // Obtenemos la posicion inicio de la potencia saltï¿½ndonos el espacio entre
                                     int inicio = inicio_potencias;
                                     // Obtenemos la posicion del final de la potencia
                                     int fin = linea_potencias.indexOf(" ", inicio);
@@ -340,14 +340,14 @@ public class FileManager {
 	        }
 	        
         }else{
-        	throw new RuntimeException("No se encuentra una estación base");
+        	throw new RuntimeException("No se encuentra una estaciÃ³n base");
         }
 
         return subscribers;
     }
 
 	/**
-     * Busca un Equipo en función del nombre que se pasa como parámetro
+     * Busca un Equipo en funciï¿½n del nombre que se pasa como parï¿½metro
      * @param name nombre del Equipo que se busca
      * @return objeto Equipo con el nombre buscado
      */
@@ -371,7 +371,7 @@ public class FileManager {
      * @param coordX latitud
      * @param coordY longitud
      * @param coordZ altura
-     * @return distancia en Km a la estación base
+     * @return distancia en Km a la estaciï¿½n base
      */
     public float getDistance(float coordX, float coordY, float coordZ) {
 
@@ -403,14 +403,14 @@ public class FileManager {
         String linea = entrada.readLine();
         // Vamos leyendo el fichero linea a linea
         while (linea != null) {
-            // La linea "Systems" nos indicará el comienzo de la definición de equipos
+            // La linea "Systems" nos indicarÃ¡ el comienzo de la definiciÃ³n de equipos
             if (linea.compareTo(Messages.Systems) == 0 || linea.compareTo(Messages.Sistemas) == 0) {
                 // Nos situamos en la linea que define al primer equipo
                 linea = (linea.compareTo(Messages.Systems) == 0)?skipLine(4, entrada):skipLine(6, entrada);
                 // la linea "---------------------------------------------------------------------------" indica el final de la definicion de equipos
                 while (linea.compareTo("---------------------------------------------------------------------------") != 0) {
                     Equipo equipo = new Equipo();
-                    // Si el equipo está mal definido capturamos la excepción y lanzamos un mensaje
+                    // Si el equipo estï¿½ mal definido capturamos la excepciï¿½n y lanzamos un mensaje
                     try {
                         // Vamos asignando para cada equipo el valor para cada una de sus variables
                         String nombre = Auxiliary.isNumberWithErrorMessage(linea.substring(0, 18)).trim();
@@ -428,8 +428,8 @@ public class FileManager {
                         // Introducimos el nodo en el vector
                         equipos.addElement(equipo);
                     } catch (Exception e) {
-                    	Auxiliary.showInfoMessage(OpenFileAction.getShell(),"El equipo  \"" + equipo.getNombre() + "\"  definido en el fichero no es correcto y no será tenido en cuenta.");
-                        System.err.println("El equipo " + equipo.getNombre() + " no es correcto y no será tenido en cuenta.");
+                    	Auxiliary.showInfoMessage(OpenFileAction.getShell(),"El equipo  \"" + equipo.getNombre() + "\"  definido en el fichero no es correcto y no serÃ¡ tenido en cuenta.");
+                        System.err.println("El equipo " + equipo.getNombre() + " no es correcto y no serÃ¡ tenido en cuenta.");
                     }
                     linea = entrada.readLine();
                 }
@@ -474,7 +474,7 @@ public class FileManager {
             		linea.compareTo(Messages.ActivarInformacionRedes) == 0) {
                 // salta hasta la linea donde se define la red
                 linea = skipLine(3, entrada);
-                //Almacena el nombre de la red en el vector quitándole
+                //Almacena el nombre de la red en el vector quitï¿½ndole
                 //los espacios que tenga al principio o al final del nombre
                 
                 netList.add(linea.trim());
@@ -483,7 +483,7 @@ public class FileManager {
                 //Dos lineas despues de Quality o hay una nueva red o se acaba el fichero
                 linea = skipLine(3, entrada);
                 if (linea != null) {
-                    //Almacena el nombre de la red en el vector quitándole
+                    //Almacena el nombre de la red en el vector quitï¿½ndole
                     //los espacios que tenga al principio o al final del nombre
                     netList.add(linea.trim());
                     linea = entrada.readLine();

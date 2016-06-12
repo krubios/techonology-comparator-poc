@@ -87,7 +87,7 @@ public final class Auxiliary {
 
 
        /**
-     * Busca un SS en función del nombre que se pasa como parámetro
+     * Busca un SS en funciï¿½n del nombre que se pasa como parï¿½metro
      * @param name nombre del SS que se busca
      * @return objeto SS con el nombre buscado
      */
@@ -107,22 +107,22 @@ public final class Auxiliary {
     }
 
     /** Comprueba si los datos introducidos por el usuario son
-     * valores numéricos
+     * valores numï¿½ricos
      * @param data datos introducidos por el usuario
-     * @return si el valor es numérico o no
+     * @return si el valor es numï¿½rico o no
      */
     public static boolean isNumber(String data) {
-        //Comprueba que el campo no está vacio
+        //Comprueba que el campo no estï¿½ vacio
         if (data.equals("")) {
             String message = "Por favor, rellene todos los campos";
             showErrorMessage(null,message);
             return false;
         }
-        //Comprueba que todos los caracteres son numéricos o un punto
+        //Comprueba que todos los caracteres son numï¿½ricos o un punto
         for (int i = 0; i < data.length(); i++) {
             char z = data.charAt(i);
             if ((z < '0' || z > '9') && z != '.') {
-                String message = '\"' + data + '\"' + " No es un valor numérico";
+                String message = '\"' + data + '\"' + " No es un valor numÃ©rico";
                 showErrorMessage(null, message);
                 return false;
             }
@@ -139,7 +139,7 @@ public final class Auxiliary {
     
     
     public static String isNumberWithErrorMessage(String data) {
-        //Comprueba que el campo no está vacio
+        //Comprueba que el campo no estï¿½ vacio
         if (data.equals("")) {
         	String message = "El nombre del sistema no existe";
             showErrorMessage(OpenFileAction.getShell(),message);
@@ -152,7 +152,7 @@ public final class Auxiliary {
             if (z < '0' || z > '9') {
                 return data;
             }else{
-            	String message = "El nombre del sistema es muy grande, el tamaño máximo permitido es de 19 caracteres";
+            	String message = "El nombre del sistema es muy grande, el tamaÃ±o mÃ¡ximo permitido es de 19 caracteres";
                 showErrorMessage(OpenFileAction.getShell(),message);
                 throw new RuntimeException();
             }
@@ -173,7 +173,7 @@ public final class Auxiliary {
 		messageBox.open();
     }
     
-    /** Abre una ventana con un mensaje de información
+    /** Abre una ventana con un mensaje de informaciï¿½n
      * @param shell 
      * @param mensaje que se desea mostrar
      */
@@ -207,7 +207,7 @@ public final class Auxiliary {
 	}
 	
 	/**
-	 * Devuelve la mayor modulaciónn wifi
+	 * Devuelve la mayor modulaciï¿½nn wifi
 	 * @param modulation
 	 * @return
 	 */
@@ -298,7 +298,7 @@ public final class Auxiliary {
 		for (Iterator<Subscriber> it = listSubscriberNodes.iterator(); it
 				.hasNext();) {
 			Subscriber user = (Subscriber) it.next();
-			// Si la distancia máxima del CPE supera a la anterior
+			// Si la distancia mï¿½xima del CPE supera a la anterior
 			if (max_distance < user.getDistance()) {
 				max_distance = user.getDistance();
 			}

@@ -22,7 +22,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.setInitialSize(new Point(600, 400));
         configurer.setShowCoolBar(true);
         configurer.setShowStatusLine(false);
-        configurer.setTitle("Comparador de Tecnologías");
+        configurer.setTitle("Comparador de TecnologÃ­as");
     }
     
 }

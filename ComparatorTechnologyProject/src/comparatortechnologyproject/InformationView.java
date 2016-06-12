@@ -76,17 +76,17 @@ public class InformationView extends ViewPart {
 		Group groupTechnology = new Group(top, SWT.NONE);
 		groupTechnology.setLayout(new GridLayout());
 		groupTechnology.setLayoutData(new GridData(GridData.FILL_BOTH));
-		groupTechnology.setText("Información Technologia Usada:");
+		groupTechnology.setText("InformaciÃ³n Technologia Usada:");
 
 		Group groupRadioMobile = new Group(banner, SWT.NONE);
 		groupRadioMobile.setLayout(new GridLayout());
 		groupRadioMobile.setLayoutData(new GridData(GridData.FILL_BOTH));
-		groupRadioMobile.setText("Información Radio Mobile: ");
+		groupRadioMobile.setText("InformaciÃ³n Radio Mobile: ");
 
-		//Se crea la vista de información del report.xml
+		//Se crea la vista de informaciï¿½n del report.xml
 		createRadioMobileViewer(groupRadioMobile);
 
-		//Se crea la vista de información de la capacidad de las tecnologias
+		//Se crea la vista de informaciï¿½n de la capacidad de las tecnologias
 		createTechnologyUsedViewer(groupTechnology);
 		
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {

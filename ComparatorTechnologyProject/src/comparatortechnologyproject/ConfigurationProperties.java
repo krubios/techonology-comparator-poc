@@ -14,7 +14,7 @@ import comparator.scheduler.Auxiliary;
 import comparator.scheduler.Subscriber;
 
 /**
- * POJO para los elementos de configuración de WImax y Wifi
+ * POJO para los elementos de configuraciï¿½n de WImax y Wifi
  * @author Karla
  *
  */
@@ -293,7 +293,7 @@ public class ConfigurationProperties {
 		}
 		String higthModulation = Auxiliary.getWimaxHightModulation(modulation);
 		if (higthModulation.equals("")){
-			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mÃ­nima recibida en el uplink es muy pequeÃ±a. No se encuentra ninguna modulaciÃ³n disponible");
 		}
 		setHightWimaxModulationUL(higthModulation);
 		return higthModulation;
@@ -316,7 +316,7 @@ public class ConfigurationProperties {
 
 		String higthModulation = Auxiliary.getWimaxHightModulation(modulation);
 		if (higthModulation.equals("")){
-			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el downlink es muy pequeña. No se encuentra ninguna modulación disponible");
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mÃ­nima recibida en el downlink es muy pequeÃ±a. No se encuentra ninguna modulaciÃ³n disponible");
 		}
 		setHightWimaxModulationDL(higthModulation);
 		return higthModulation;
@@ -346,7 +346,7 @@ public class ConfigurationProperties {
 		
 		String higthModulation = Auxiliary.getWifiHightModulation(modulation);
 		if (higthModulation.equals("")){
-			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mÃ­nima recibida en el uplink es muy pequeÃ±a. No se encuentra ninguna modulaciÃ³n disponible");
 		}
 		setHightWifiModulationDL(higthModulation);
 		
@@ -376,7 +376,7 @@ public class ConfigurationProperties {
 		}
 		String higthModulation = Auxiliary.getWifiHightModulation(modulation);
 		if (higthModulation.equals("")){
-			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mÃ­nima recibida en el uplink es muy pequeÃ±a. No se encuentra ninguna modulaciÃ³n disponible");
 		}
 		setHightWifiModulationUL(higthModulation);
 		

@@ -58,7 +58,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	
         MenuManager fileMenu = new MenuManager("&Archivo", IWorkbenchActionConstants.M_FILE);
         MenuManager helpMenu = new MenuManager("&Ayuda", IWorkbenchActionConstants.M_HELP);
-        MenuManager toolMenu = new MenuManager("&Configuración", IWorkbenchActionConstants.M_WINDOW);
+        MenuManager toolMenu = new MenuManager("&ConfiguraciÃ³n", IWorkbenchActionConstants.M_WINDOW);
         
         menuBar.add(fileMenu);
         // Add a group marker indicating where action set menus will appear.
