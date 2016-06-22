@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Shell;
 import comparator.actions.OpenFileAction;
 import comparator.preferences.Messages;
 import comparator.preferences.wifi.WifiPreferenceData;
+import comparator.preferences.wifi.tdma.WifiTdmaPreferenceData;
 
 
 /** La clase Auxiliary almacena constantes y metodos auxiliares que
@@ -70,6 +71,24 @@ public final class Auxiliary {
 	public static WifiPreferenceData data14 = new WifiPreferenceData("14", Messages.MCS_14, Float.parseFloat(Messages.MCS_14_SENSIBILITY), 
 			Float.parseFloat(Messages.MCS_14_POWER_VALUE), (float)117);
 	public static WifiPreferenceData data15 = new WifiPreferenceData("15", Messages.MCS_15, Float.parseFloat(Messages.MCS_15_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_15_POWER_VALUE), (float)130);
+	
+	
+	public static WifiTdmaPreferenceData tdmaData8 = new WifiTdmaPreferenceData("08", Messages.MCS_8, Float.parseFloat(Messages.MCS_8_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_8_POWER_VALUE), (float)13);
+	public static WifiTdmaPreferenceData tdmaData9 = new WifiTdmaPreferenceData("09", Messages.MCS_9, Float.parseFloat(Messages.MCS_9_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_9_POWER_VALUE), (float)26);
+	public static WifiTdmaPreferenceData tdmaData10 = new WifiTdmaPreferenceData("10", Messages.MCS_10, Float.parseFloat(Messages.MCS_10_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_10_POWER_VALUE), (float)39);
+	public static WifiTdmaPreferenceData tdmaData11 = new WifiTdmaPreferenceData("11", Messages.MCS_11, Float.parseFloat(Messages.MCS_11_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_11_POWER_VALUE), (float)52);
+	public static WifiTdmaPreferenceData tdmaData12 = new WifiTdmaPreferenceData("12", Messages.MCS_12, Float.parseFloat(Messages.MCS_12_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_12_POWER_VALUE), (float)78);
+	public static WifiTdmaPreferenceData tdmaData13 = new WifiTdmaPreferenceData("13", Messages.MCS_13, Float.parseFloat(Messages.MCS_13_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_13_POWER_VALUE), (float)104);
+	public static WifiTdmaPreferenceData tdmaData14 = new WifiTdmaPreferenceData("14", Messages.MCS_14, Float.parseFloat(Messages.MCS_14_SENSIBILITY), 
+			Float.parseFloat(Messages.MCS_14_POWER_VALUE), (float)117);
+	public static WifiTdmaPreferenceData tdmaData15 = new WifiTdmaPreferenceData("15", Messages.MCS_15, Float.parseFloat(Messages.MCS_15_SENSIBILITY), 
 			Float.parseFloat(Messages.MCS_15_POWER_VALUE), (float)130);
 	
 	
@@ -197,6 +216,12 @@ public final class Auxiliary {
 				MCS_8, MCS_9,MCS_10,MCS_11,MCS_12,MCS_13,MCS_14,MCS_15 	
 			};
 	}
+	
+	 public static String[][] getWifiTdmaElementsModulation() {
+			return new String[][]{
+					MCS_8, MCS_9,MCS_10,MCS_11,MCS_12,MCS_13,MCS_14,MCS_15 	
+				};
+		}
 
 	public static void setMimoModulation(boolean newValue) {
 		mimoModulation = newValue;
@@ -245,6 +270,33 @@ public final class Auxiliary {
 			mayor = Messages.MCS_1;
 		} else {
 			mayor = Messages.MCS_0;
+		}
+		return mayor;
+	}
+	
+	/**
+	 * Devuelve la mayor modulaci�nn wifi TDMA
+	 * @param modulation
+	 * @return
+	 */
+	public static String getWifiTdmaHightModulation(ArrayList<String> modulation) {
+		String mayor = "";
+		if (modulation.contains(Messages.MCS_15)) {
+			mayor = Messages.MCS_15;
+		} else if (modulation.contains(Messages.MCS_14)) {
+			mayor = Messages.MCS_14;
+		} else if (modulation.contains(Messages.MCS_13)) {
+			mayor = Messages.MCS_13;
+		} else if (modulation.contains(Messages.MCS_12)) {
+			mayor = Messages.MCS_12;
+		} else if (modulation.contains(Messages.MCS_11)) {
+			mayor = Messages.MCS_11;
+		} else if (modulation.contains(Messages.MCS_10)) {
+			mayor = Messages.MCS_10;
+		} else if (modulation.contains(Messages.MCS_9)) {
+			mayor = Messages.MCS_9;
+		} else if (modulation.contains(Messages.MCS_8)) {
+			mayor = Messages.MCS_8;
 		}
 		return mayor;
 	}

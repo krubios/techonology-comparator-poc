@@ -72,6 +72,13 @@
   		
   		<page
             category="org.eclipse.ui.preferencePages.Workbench"
+            class="comparator.preferences.wifi.tdma.WifiTdmaPreferencePage"
+            id="comparator.preferences.wifi.tdma.WifiTdmaPreferencePage"
+            name="Sistema WiFi TDMA">
+  		</page>
+  		
+  		<page
+            category="org.eclipse.ui.preferencePages.Workbench"
             class="comparator.preferences.wimax.WimaxPreferencePage"
             id="comparator.preferences.wimax.WimaxPreferencePage"
             name="Sistema WiMAX">

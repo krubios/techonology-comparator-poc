@@ -8,7 +8,7 @@ import comparator.preferences.wimax.WimaxCapacity;
 import comparator.scheduler.Auxiliary;
 
 /**
- * Clase que lee las propiedades de configuración tanto de Wimax como Wifi
+ * Clase que lee las propiedades de configuraciï¿½n tanto de Wimax como Wifi
  * @author Karla
  *
  */
@@ -97,6 +97,9 @@ public class ConfigurationFactoryProperties {
 		}else if (((event.getProperty().equals(PreferenceConstants.MIMO_WIFI)) ||
 				(event.getProperty().equals(PreferenceConstants.SENSIBILITY_WIFI)))){
 			configurationProperties.setMimoOrSensibilityWifiChange(true);
+			
+		}else if(event.getProperty().equals(PreferenceConstants.SENSIBILITY_WIFI_TDMA)){
+			configurationProperties.setSenbilityWifiTdmaChange(true);
 			
 		}else if (event.getProperty().equals(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_DL)){
 			String fractionFrameDl = event.getNewValue().toString();

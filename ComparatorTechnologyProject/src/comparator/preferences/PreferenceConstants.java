@@ -17,6 +17,9 @@ public class PreferenceConstants {
 	//Wifi TDMA
 	public static final String WIFI_TDMA_FRACTION_FRAME_DL = "WIFITDMAFRACTIONFRAMEDL";
 	public static final String WIFI_TDMA_FRACTION_FRAME_UL = "WIFITDMAFRACTIONFRAMEUL";
+	public static final String MODULATION_WIFI_TDMA_COMBO = "COMBOWIFITDMA";
+	public static final String POWER_WIFI_TDMA = "POWERWIFITDMA";
+	public static final String SENSIBILITY_WIFI_TDMA = "SENSIBILITYWIFITDMA";
 	
 	//Wimax capacity
 	public static final String BAND_WIDTH = "BAND_WIDTH";

@@ -25,6 +25,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer{
 		store.setDefault(PreferenceConstants.POWER_WIFI, Messages.MCS_0_POWER_VALUE);
 		store.setDefault(PreferenceConstants.RTS_CAPACITY_WIFI, false);
 		
+		//Wifi TDMA
+		store.setDefault(PreferenceConstants.MODULATION_WIFI_TDMA_COMBO, Messages.MCS_8);
+		store.setDefault(PreferenceConstants.SENSIBILITY_WIFI_TDMA, Messages.MCS_8_SENSIBILITY);
+		store.setDefault(PreferenceConstants.POWER_WIFI_TDMA, Messages.MCS_8_POWER_VALUE);
+		
 		//Capacidad Wimax
 		store.setDefault(PreferenceConstants.CYCLIX_PREFIX, "1/32");
 		store.setDefault(PreferenceConstants.BAND_WIDTH, "10");

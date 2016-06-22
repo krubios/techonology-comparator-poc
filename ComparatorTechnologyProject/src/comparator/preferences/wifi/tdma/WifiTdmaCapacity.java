@@ -1,13 +1,12 @@
 package comparator.preferences.wifi.tdma;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import comparator.preferences.Messages;
 import comparator.preferences.PreferenceConstants;
 import comparator.scheduler.Auxiliary;
 import comparator.scheduler.Scheduler;
 import comparatortechnologyproject.Activator;
+import comparatortechnologyproject.InformationView;
 
 public class WifiTdmaCapacity {
 	
@@ -18,13 +17,9 @@ public class WifiTdmaCapacity {
     public static float dl_totalWifiTdmaCapacity;
 	public static float ul_totalWifiTdmaCapacity;
 	
-	//Modulación
+	//Modulaciï¿½n
 	public static String max_modulation_dl;
 	public static String max_modulation_ul;
-	
-	private static ArrayList<String> wifiTdmaModulationParamList = new ArrayList<String>(
-			Arrays.asList(Messages.MCS_8, Messages.MCS_9, Messages.MCS_10, Messages.MCS_11, Messages.MCS_12, Messages.MCS_13,
-					Messages.MCS_14, Messages.MCS_15));
 	
 	public WifiTdmaCapacity(){
 		
@@ -42,175 +37,155 @@ public class WifiTdmaCapacity {
 	public String wifiTdmaScheduler(Scheduler scheduler){
 		
 		String message = "Servicios Wifi Tdma creados";
-		// Calcula la distancia máxima
+		// Calcula la distancia mÃ¡xima
 		Auxiliary.setMaxDistance(scheduler.getSubscriberNodes());
 		
-		dl_totalWifiTdmaCapacity = getMaxThroughputDl(Auxiliary.getMaxDistance());
-		ul_totalWifiTdmaCapacity = getMaxThroughputUl(Auxiliary.getMaxDistance());
+		//Obtenemos la modulaciÃ³n para el DL
+		String dlWifiTdmaModulation = InformationView.configurationProperties.getHightWifiTdmaModulationDL();
+		dl_totalWifiTdmaCapacity = getMaxThroughputDl(Auxiliary.getMaxDistance(), dlWifiTdmaModulation);
+		
+		//Obtenemos la modulaciÃ³n para el DL
+		String ulWifiTdmaModulation = InformationView.configurationProperties.getHightWifiTdmaModulationUL();
+		ul_totalWifiTdmaCapacity = getMaxThroughputUl(Auxiliary.getMaxDistance(), ulWifiTdmaModulation);
 		
 		return message;
 		
 	}
 
-	private float getMaxThroughputUl(float distance) {
+	private float getMaxThroughputUl(float distance, String modulation) {
 		
 		WifiTdmaData wifiTdmaData = new WifiTdmaData();
 		ArrayList<WifiTdmaData> data = new ArrayList<WifiTdmaData>();
 		float throughput = 0;
 		float maxThroughput = 0;
 		
-		for (String modulation: wifiTdmaModulationParamList){
-			if (modulation.equals("MCS8")){
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 75.7152)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS9")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 165.1968)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS10")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 261.33216)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS11")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 351.0432)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS12")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 526.5648)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS13")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 705.98688)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS14")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 787.89696)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS15")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 881.50848)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-			}
+		if (modulation.equals("MCS8")){
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 75.7152)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS9")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 165.1968)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS10")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 261.33216)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS11")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 351.0432)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS12")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 526.5648)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS13")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 705.98688)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS14")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 787.89696)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS15")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 881.50848)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
 		}
 		
-		maxThroughput = getThroughputUl(data) * FRACTION_FRAME_TIME_UL;
-		
+		maxThroughput = wifiTdmaData.getThroughput() * FRACTION_FRAME_TIME_UL;
+		max_modulation_ul = wifiTdmaData.getModulation();
 		return maxThroughput;
 	}
 
-	private float getThroughputUl(ArrayList<WifiTdmaData> dataList) {
-		float max = 0;
-		for (WifiTdmaData data: dataList){
-			if (data.getThroughput() > max){
-				max = data.getThroughput();
-				max_modulation_ul = data.getModulation();
-			}
-		}
-		return max;
-	}
-
-	private float getMaxThroughputDl(float distance) {
+	private float getMaxThroughputDl(float distance, String modulation) {
 		WifiTdmaData wifiTdmaData = new WifiTdmaData();
 		ArrayList<WifiTdmaData> data = new ArrayList<WifiTdmaData>();
 		float throughput = 0;
 		float maxThroughput = 0;
 		
-		for (String modulation: wifiTdmaModulationParamList){
-			if (modulation.equals("MCS8")){
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 75.7152)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS9")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 165.1968)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS10")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 261.33216)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS11")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 351.0432)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS12")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 526.5648)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS13")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 705.98688)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS14")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 787.89696)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-				
-			}else if (modulation.equals("MCS15")){
-				
-				throughput = (float) (((4 * Math.pow(4, -6)) * distance + 881.50848)/10);
-				wifiTdmaData.setModulation(modulation);
-				wifiTdmaData.setThroughput(throughput);
-				data.add(wifiTdmaData);
-			}
+		if (modulation.equals("MCS8")){
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 75.7152)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS9")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 165.1968)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS10")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 261.33216)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS11")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 351.0432)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS12")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 526.5648)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS13")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 705.98688)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS14")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 787.89696)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
+			
+		}else if (modulation.equals("MCS15")){
+			
+			throughput = (float) (((4 * Math.pow(4, -6)) * distance + 881.50848)/10);
+			wifiTdmaData.setModulation(modulation);
+			wifiTdmaData.setThroughput(throughput);
+			data.add(wifiTdmaData);
 		}
 		
-		maxThroughput = getThroughputDl(data) * FRACTION_FRAME_TIME_DL;
+		maxThroughput = wifiTdmaData.getThroughput() * FRACTION_FRAME_TIME_DL;
+		max_modulation_dl = wifiTdmaData.getModulation();
 		
 		return maxThroughput;
-	}
-
-	private float getThroughputDl(ArrayList<WifiTdmaData> dataList) {
-		float max = 0;
-		for (WifiTdmaData data: dataList){
-			if (data.getThroughput() > max){
-				max = data.getThroughput();
-				max_modulation_dl = data.getModulation();
-			}
-		}
-		return max;
 	}
 
 	public void setFractionFrameDl(float fractionFrameDl){

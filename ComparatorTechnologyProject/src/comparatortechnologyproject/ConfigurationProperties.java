@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import comparator.actions.OpenFileAction;
 import comparator.preferences.wifi.WifiComboFieldEditor;
-import comparator.preferences.wifi.tdma.WifiTdmaCapacity;
+import comparator.preferences.wifi.tdma.WifiTdmaComboFieldEditor;
 import comparator.preferences.wimax.WimaxComboFieldEditor;
 import comparator.scheduler.Auxiliary;
 import comparator.scheduler.Subscriber;
@@ -28,6 +28,8 @@ public class ConfigurationProperties {
 	private static String higthWimaxModulationDL = "";
 	private static String higthWifiModulationDL = "";
 	private static String higthWifiModulationUL = "";
+	private static String higthWifiTdmaModulationDL = "";
+	private static String higthWifiTdmaModulationUL = "";
 	
 	private float frameDuration;
 	private float wimaxFractionFrameDl;
@@ -62,7 +64,9 @@ public class ConfigurationProperties {
 
 	private boolean wifiTdmaFractionFrameDlChange;
 	private boolean wifiTdmaFractionFrameUlChange;
+	private boolean senbilityWifiTdmaChange;
 	private boolean mimoOrSensibilityWifiChange;
+
 	
 	public ConfigurationProperties(){
 		
@@ -273,8 +277,8 @@ public class ConfigurationProperties {
 			grandChildWifiDL.setText(showBestWifiDlModulation(subscriber.getPotenciaRecibida_Dl()));
 			grandChildWifiUL.setText(showBestWifiUlModulation(subscriber.getPotenciaRecibida_Ul()));
 			
-			grandChildWifiTdmaDl.setText(WifiTdmaCapacity.max_modulation_dl);
-			grandChildWifiTdmaUl.setText(WifiTdmaCapacity.max_modulation_ul);
+			grandChildWifiTdmaDl.setText(showBestWifiTdmaDlModulation(subscriber.getPotenciaRecibida_Dl()));
+			grandChildWifiTdmaUl.setText(showBestWifiTdmaUlModulation(subscriber.getPotenciaRecibida_Ul()));
 		}
 	}
 	
@@ -383,6 +387,63 @@ public class ConfigurationProperties {
 		return higthModulation;
 	}
 	
+	private String showBestWifiTdmaDlModulation(float potenciaMinRecibida_Dl){
+		
+		ArrayList<String> modulation = new ArrayList<String>();
+		String sensitivityParam = "";
+		String[][] modulationsList = Auxiliary.getWifiTdmaElementsModulation();
+		
+		for (String[] modulationParams : modulationsList) {
+			for(String modulationParam: modulationParams){
+				sensitivityParam = WifiTdmaComboFieldEditor
+						.getSensitivityWifiTdma(modulationParam);
+	
+				if ((potenciaMinRecibida_Dl > Float.parseFloat(sensitivityParam))
+						|| potenciaMinRecibida_Dl == Float
+								.parseFloat(sensitivityParam)) {
+					modulation.add(modulationParam);
+				}
+				break;
+			}
+		}
+		
+		String higthModulation = Auxiliary.getWifiTdmaHightModulation(modulation);
+		if (higthModulation.equals("")){
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+		}
+		setHightWifiTdmaModulationDL(higthModulation);
+		
+		return higthModulation;
+	}
+	
+	private String showBestWifiTdmaUlModulation(float potenciaMinRecibida_Ul) {
+
+		ArrayList<String> modulation = new ArrayList<String>();
+		String sensitivityParam = "";
+		String[][] modulationsList = Auxiliary.getWifiTdmaElementsModulation();
+		
+		for (String[] modulationParams : modulationsList) {
+			for(String modulationParam: modulationParams){
+				sensitivityParam = WifiTdmaComboFieldEditor
+						.getSensitivityWifiTdma(modulationParam);
+	
+				if ((potenciaMinRecibida_Ul > Float.parseFloat(sensitivityParam))
+						|| potenciaMinRecibida_Ul == Float
+								.parseFloat(sensitivityParam)) {
+					modulation.add(modulationParam);
+				}
+				break;
+			}
+		}
+		String higthModulation = Auxiliary.getWifiTdmaHightModulation(modulation);
+		if (higthModulation.equals("")){
+			Auxiliary.showInfoMessage(OpenFileAction.getShell(), "La potencia mínima recibida en el uplink es muy pequeña. No se encuentra ninguna modulación disponible");
+		}
+		setHightWifiTdmaModulationUL(higthModulation);
+		
+		return higthModulation;
+	}
+	
 	public String getHightWimaxModulationUL() {
 		return higthWimaxModulationUL;
 	}
@@ -415,6 +476,22 @@ public class ConfigurationProperties {
 		higthWifiModulationUL = modulation;
 	}
 	
+	public String getHightWifiTdmaModulationDL() {
+		return higthWifiTdmaModulationDL;
+	}
+
+	public String getHightWifiTdmaModulationUL() {
+		return higthWifiTdmaModulationUL;
+	}
+
+	public void setHightWifiTdmaModulationDL(String modulation) {
+		higthWifiTdmaModulationDL = modulation;
+	}
+
+	public void setHightWifiTdmaModulationUL(String modulation) {
+		higthWifiTdmaModulationUL = modulation;
+	}
+	
 	public void setSenbilityWimaxChange(boolean senbilityWimaxChange) {
 		this.senbilityWimaxChange = senbilityWimaxChange;
 	}
@@ -430,6 +507,15 @@ public class ConfigurationProperties {
 	public boolean isMimoOrSensibilityWifiChange() {
 		return mimoOrSensibilityWifiChange;
 	}
+	
+	public boolean isSenbilityWifiTdmaChange() {
+		return senbilityWifiTdmaChange;
+	}
+	
+	public void setSenbilityWifiTdmaChange(boolean senbilityWifiTdmaChange) {
+		this.senbilityWifiTdmaChange = senbilityWifiTdmaChange;
+	}
+	
 	public boolean isWifiTdmaFractionFrameDlChange() {
 		return wifiTdmaFractionFrameDlChange;
 	}

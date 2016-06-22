@@ -100,7 +100,7 @@ public class Messages extends NLS{
 	public static String PreferencePage_FractionFrameUl;
 
 	public static String WifiTdmaCapacityPreferencePage_infoMessage;
-
+	public static String WifiTdmaPreferencePage_infoMessage; 
 
 	
 	static{

@@ -114,9 +114,6 @@ public class NavigationView extends ViewPart {
 					if ((!_selectedSubscriber.getName().equals(DEFAULT_NODE_NAME)) && (baseStation != null && 
 							!_selectedSubscriber.getName().equals(scheduler.getBaseStation().getName()))){
 						
-						InformationView.wifiTdmaCapacity.wifiTdmaScheduler(scheduler);
-						informationView.showWifiTdmaCapacityInformation();
-						
 						InformationView.configurationProperties.showInformationSuscriber(informationView.tableViewer, 
 								InformationView.grandChildWimaxDl, InformationView.grandChildWimaxUl, 
 								InformationView.grandChildWifiDl, InformationView.grandChildWifiUl, InformationView.grandChildWifiTdmaDl,
@@ -124,9 +121,11 @@ public class NavigationView extends ViewPart {
 						
 						InformationView.wimaxCapacity.wimaxScheduler(scheduler);
 						InformationView.wifiCapacity.wifiScheduler(scheduler);
+						InformationView.wifiTdmaCapacity.wifiTdmaScheduler(scheduler);
 						
 						informationView.showWimaxCapacityInformation();
 						informationView.showWifiCapacityInformation();
+						informationView.showWifiTdmaCapacityInformation();
 						
 					}else{
 						

@@ -145,6 +145,13 @@ public class InformationView extends ViewPart {
 																	grandChildWifiTdmaUl);
 						refreshWifiCapacity();
 						
+					}else if(configurationProperties.isSenbilityWifiTdmaChange()){
+						
+						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDl, grandChildWimaxUl,
+																	grandChildWifiDl, grandChildWifiUl, grandChildWifiTdmaDl,
+																	grandChildWifiTdmaUl);
+						refreshWifiTdmaCapacity();;
+						
 					}else if (configurationProperties.isRtsCapacityFlagChange()){
 						configurationProperties.showInformationSuscriber(tableViewer, grandChildWimaxDl, grandChildWimaxUl,
 																	grandChildWifiDl, grandChildWifiUl, grandChildWifiTdmaDl,
