@@ -26,8 +26,8 @@ public class WifiTdmaCapacityPreferencePage extends FieldEditorPreferencePage im
 		FloatFieldEditor wifiTdmaFractionFrameUl = new FloatFieldEditor(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_UL, Messages.PreferencePage_FractionFrameUl, 
 				getFieldEditorParent());
 		
-		wifiTdmaFractionFrameUl.setWifiFractionFrameDl(wifiTdmaFractionFrameDl);
-		wifiTdmaFractionFrameDl.setWifiFractionFrameUl(wifiTdmaFractionFrameUl);
+		wifiTdmaFractionFrameUl.setWifiTdmaFractionFrameDl(wifiTdmaFractionFrameDl);
+		wifiTdmaFractionFrameDl.setWifiTdmaFractionFrameUl(wifiTdmaFractionFrameUl);
 		
 		addField(wifiTdmaFractionFrameDl);
 		addField(wifiTdmaFractionFrameUl);

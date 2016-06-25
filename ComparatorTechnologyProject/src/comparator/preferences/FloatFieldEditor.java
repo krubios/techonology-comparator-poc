@@ -11,6 +11,8 @@ public class FloatFieldEditor extends StringFieldEditor {
 	private FloatFieldEditor wimaxFractionFrameDl;
 	private FloatFieldEditor wifiFractionFrameUl;
 	private FloatFieldEditor wifiFractionFrameDl;
+	private FloatFieldEditor wifiTdmaFractionFrameUl;
+	private FloatFieldEditor wifiTdmaFractionFrameDl;
 	
     private double minValidValue = 0;
     private double maxValidValue = 1;
@@ -118,14 +120,34 @@ public class FloatFieldEditor extends StringFieldEditor {
 	    		wifiFractionFrameDl.setStringValue(String.valueOf(value));
 	    	}else if (this.getPreferenceName().equals(PreferenceConstants.WIFI_FRACTION_FRAME_DL)){
 	    		wifiFractionFrameUl.setStringValue(String.valueOf(value));
+	    	}else if (this.getPreferenceName().equals(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_UL)){
+	    		wifiTdmaFractionFrameDl.setStringValue(String.valueOf(value));
+	    	}else if (this.getPreferenceName().equals(PreferenceConstants.WIFI_TDMA_FRACTION_FRAME_DL)){
+	    		wifiTdmaFractionFrameUl.setStringValue(String.valueOf(value));
 	    	}
     	}
     }
 
 	public void setWimaxFractionFrameUl(FloatFieldEditor fractionFrameUlValue) {
-		wimaxFractionFrameUl = fractionFrameUlValue;
+		this.wimaxFractionFrameUl = fractionFrameUlValue;
 	}
 	
+	public FloatFieldEditor getWifiTdmaFractionFrameUl() {
+		return wifiTdmaFractionFrameUl;
+	}
+
+	public void setWifiTdmaFractionFrameUl(FloatFieldEditor wifiTdmaFractionFrameUl) {
+		this.wifiTdmaFractionFrameUl = wifiTdmaFractionFrameUl;
+	}
+
+	public FloatFieldEditor getWifiTdmaFractionFrameDl() {
+		return wifiTdmaFractionFrameDl;
+	}
+
+	public void setWifiTdmaFractionFrameDl(FloatFieldEditor wifiTdmaFractionFrameDl) {
+		this.wifiTdmaFractionFrameDl = wifiTdmaFractionFrameDl;
+	}
+
 	public FloatFieldEditor getWimaxFractionFrameUl(){
 		return wimaxFractionFrameUl;
 	}
