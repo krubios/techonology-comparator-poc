@@ -93,6 +93,13 @@ Sistemas WiFi
 - Sensibilidad:se trata de la sensibilidad de un equipo WiFi en decibelio-milivatio de acuerdo a la modulación seleccionada.
 - Capacidad RTS: se permite la opción de activar el modo RTS. Por defecto la herramienta trabaja en modo CTS.
 
+Sistemas WiFi TDMA
+
+- Modulación: posibles modulaciones disponibles en equipos WiFi TDMA.
+- Potencia transmitida: representa a la potencia transmitida en decibelio-milivatio de un equipo WiFi de acuerdo a la modulación 
+  seleccionada.
+- Sensibilidad: representa la sensibilidad en decibelio-milivatio de un equipo WiFi según la modulación empleada.
+
 ### Menú de ayuda
 
 En este menú se muestra una información resumida de la aplicación.
